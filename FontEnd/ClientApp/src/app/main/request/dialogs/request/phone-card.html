@@ -1,0 +1,72 @@
+<md-dialog class="request-dialog" aria-label="New Request">
+    <form name="requestForm" class="md-inline-form" novalidate>
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">{{vm.title}}</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+                    <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content ms-scroll>
+            <span flex>Abonent</span>
+            <md-divider style="margin-bottom: 10px"></md-divider>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Adı</label>
+                    <input type="text" readonly value="{{vm.phoneCard.subscriber.name}}">
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Təşkilat</label>
+                    <input type="text" readonly value="{{vm.phoneCard.subscriber.organisation}}">
+                </md-input-container>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Sənəd</label>
+                    <input type="text" readonly value="{{vm.phoneCard.subscriber.passportNumber}}">
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Mobil</label>
+                    <input type="text" readonly value="{{vm.phoneCard.subscriber.mobilePhone}}">
+                </md-input-container>
+            </div>
+
+
+
+            <span flex>Telefon</span>
+            <md-divider style="margin-bottom: 10px"></md-divider>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Şkaf nömrəsi</label>
+                    <input type="text" readonly value="{{vm.phoneCard.caseNumber}}">
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Köməkçi şkaf nömrəsi</label>
+                    <input type="text" readonly value="{{vm.phoneCard.caseNumber}}">
+                </md-input-container>
+            </div>
+
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Müdafiə zolağı</label>
+                    <input type="text" readonly value="{{vm.phoneCard.stripPair}}">
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Kabel qutusu</label>
+                    <input type="text" readonly value="{{vm.phoneCard.cabelBox}}">
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+            </div>
+            <div layout="row">
+                <md-button type="cancel" ng-click="vm.closeDialog()" class="send-button md-accent md-raised" aria-label="Ləğv et">
+                    Bağla
+                </md-button>
+            </div>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

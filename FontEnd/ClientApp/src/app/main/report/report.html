@@ -1,0 +1,510 @@
+<!--<div ng-include="'/app/main/request/sidenavs/sidenav.html'"></div>-->
+<div id="report" class="page-layout simple left-sidenav inner-sidenav right-sidenav">
+
+  <!-- HEADER -->
+  <div class="header md-accent-bg" layout="row" layout-align="space-between center">
+
+    <!-- APP TITLE -->
+    <div layout="row" layout-align="start center">
+      <!-- <md-button class="md-icon-button sidenav-toggle" hide-gt-md aria-label="Toggle sidenav">
+          <md-icon md-font-icon="icon-menu" class="icon">SideNav</md-icon>
+      </md-button> -->
+
+      <div class="logo" layout="row" layout-align="start center">
+        <span class="logo-icon">
+          <md-icon md-font-icon="icon-account-box" class="s24"></md-icon>
+        </span>
+        <span class="logo-text">Hesabatlar</span>
+      </div>
+    </div>
+    <!-- / APP TITLE -->
+
+    <md-menu-bar id="user-menu">
+      <md-menu md-position-mode="left bottom">
+        <md-button class="user-button" ng-click="$mdOpenMenu()" aria-label="User settings" translate translate-attr-aria-label="TOOLBAR.USER_SETTINGS">
+          <div layout="row" layout-align="space-between center">
+            <span class="username" hide show-gt-sm>Sorğular</span>
+            <md-icon md-font-icon="icon-chevron-down" class="icon s16" hide-xs></md-icon>
+          </div>
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item class="md-indent" ng-click="vm.showChart('requestByDepartment');">
+            <md-icon md-font-icon="icon-package" class="icon"></md-icon>
+            <md-button>Şöbələr üzrə</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-indent" ng-click="vm.showChart('requestByRequestType');">
+            <md-icon md-font-icon="icon-chart-pie" class="icon"></md-icon>
+            <md-button>Kateqoriyalar üzrə</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-indent" ng-click="vm.showChart('requestByRequestStatus');">
+            <md-icon md-font-icon="icon-check-all" class="icon"></md-icon>
+            <md-button>İcra vəziyyəti üzrə</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-indent" ng-click="vm.showChart('requestByRegion');">
+            <md-icon md-font-icon="icon-source-fork" class="icon"></md-icon>
+            <md-button>TKQ-lər üzrə</md-button>
+          </md-menu-item>
+
+          <!--<md-menu-item class="md-indent" ng-click="vm.showChart('RequestByRequestCopmpleted');">
+              <md-icon md-font-icon="icon-check-all" class="icon"></md-icon>
+              <md-button>Icra Olunmus Sorgular </md-button>
+          </md-menu-item>-->
+          <!-- <md-menu-divider></md-menu-divider> -->
+      </md-menu>
+    </md-menu-bar>
+    <md-menu-bar id="user-menu">
+      <md-menu md-position-mode="left bottom">
+        <md-button class="user-button" ng-click="$mdOpenMenu()" aria-label="User settings" translate translate-attr-aria-label="TOOLBAR.USER_SETTINGS">
+          <div layout="row" layout-align="space-between center">
+            <span class="username" hide show-gt-sm>Tapşırıqlar</span>
+            <md-icon md-font-icon="icon-chevron-down" class="icon s16" hide-xs></md-icon>
+          </div>
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item class="md-indent" ng-click="vm.showChart('taskByExecutorUser');">
+            <md-icon md-font-icon="icon-check" class="icon"></md-icon>
+            <md-button>İcraçılar üzrə</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-indent" ng-click="vm.showChart('taskByDepartment');">
+            <md-icon md-font-icon="icon-puzzle" class="icon"></md-icon>
+            <md-button>Şöbələr üzrə</md-button>
+          </md-menu-item>
+          <!-- <md-menu-divider></md-menu-divider> -->
+
+      </md-menu>
+    </md-menu-bar>
+    <!-- SEARCH  <md-icon ng-click="vm.excelExport(vm.filter)" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon>-->
+    <div class="search-input-wrapper" layout="row" layout-align="start center">
+      <md-input-container class="m-0">
+        <md-datepicker ms-datepicker-fix md-open-on-focus ng-model="vm.startDate" md-hide-icons="all" ng-change="vm.getReport" ng-min-date="" ng-max-date=""
+                       ng-date-filter="function(Date): boolean" md-placeholder="Başlanğıc tarix">
+        </md-datepicker>
+      </md-input-container>
+      <md-input-container class="m-0">
+        <md-datepicker ms-datepicker-fix md-open-on-focus md-hide-icons="all" ng-model="vm.endDate" ng-change="vm.getReport" ng-min-date="" ng-max-date=""
+                       ng-date-filter="function(Date): boolean" md-placeholder="Son tarix">
+        </md-datepicker>
+      </md-input-container>
+      <label for="search">
+        <md-icon ng-click="vm.showChart(vm.selectedChart)" md-font-icon="icon-magnify"></md-icon>
+      </label>
+    </div>
+
+
+
+    <!-- / SEARCH -->
+  </div>
+  <md-progress-linear class="md-warn" ng-show="vm.findIsInProgress" md-mode="indeterminate"></md-progress-linear>
+  <!-- / HEADER -->
+  <!-- CONTENT -->
+  <div class="contents">
+
+    <!-- CONTENT -->
+    <div class="content white-bg md-whiteframe-4dp" ms-scroll md-background-bg>
+
+      <div class="" ng-if="vm.selectedChart == 'requestByDepartment'" flex>
+        <div class="md-title report-title" flex flex="100">
+          Şöbələr üzrə müraciətlərin sayı
+          <span><md-icon ng-click="vm.excelExport('byDepartment')" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon></span>
+        </div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">
+          <!-- MAIN -->
+          <div flex="35">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Müraciət növü</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Say</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div flex="60">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vm.selectedChart == 'requestByRequestType'" flex>
+        <div class="md-title report-title" flex flex="100">
+          Kateqoriyalar üzrə müraciətlərin sayı
+          <span><md-icon ng-click="vm.excelExport('byRequestType')" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon></span>
+        </div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">
+          <!-- MAIN -->
+          <div flex="35">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Şöbə</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Say</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div flex="60">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vm.selectedChart == 'requestByRequestStatus'" flex>
+        <div class="md-title report-title" flex flex="100">
+          İcra vəziyyətlərinə görə sayı
+          <span><md-icon ng-click="vm.excelExport('byRequestStatus')" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon></span>
+        </div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">
+          <!-- MAIN -->
+          <div flex="35">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcra vəziyyəti</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Say</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div flex="60">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!--///----------------------------------------->
+      <!--<div ng-if="vm.selectedChart == 'RequestByRequestCopmpleted'" flex>
+        <div class="md-title report-title" flex flex="100">İcra vəziyyətlərinə görə sayı</div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">-->
+      <!-- MAIN -->
+      <!--<div flex="35">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcra vəziyyəti</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Say</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div flex="60">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>-->
+      <!--///--------------------------------------/-->
+      <div ng-if="vm.selectedChart == 'taskByExecutorUser'" flex>
+        <div class="md-title report-title" flex flex="100">
+          İcraçılar üzrə tapşırıqların sayı
+          <span><md-icon ng-click="vm.excelExport('taskByExcutorsUser')" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon></span>
+        </div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">
+          <!-- MAIN -->
+          <div flex="65">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcraçı</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Tapşırıqların sayı</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcra olunan</span>
+                      </div>
+                    </th>
+                    <th>
+                      <div class="table-header">
+                        <span class="column-title">İcrada</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Qiymət</span>
+                      </div>
+                    </th>
+                  </tr>
+
+
+                </thead>
+                <tbody>
+                  <tr class="td-holder" ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                    <td>{{ data.completedValue || 0 }}</td>
+                    <td>{{ data.value - (data.completedValue || 0) }}</td>
+                    <td>{{ data.rating || 0 }}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr class="td-holder">
+                    <td>{{vm.thisReportData.totalData.name}}</td>
+                    <td>{{vm.thisReportData.totalData.value}}</td>
+                    <td>{{vm.thisReportData.totalData.completedValue || 0}}</td>
+                    <td>
+                      {{
+ vm.thisReportData.totalData.value - (vm.thisReportData.totalData.completedValue
+                                            || 0)
+                      }}
+                    </td>
+                    <td>{{ vm.thisReportData.totalData.rating || 0 }}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div flex="30">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vm.selectedChart == 'taskByRegion'" flex>
+        <div class="md-title report-title" flex flex="100">
+          TKQ-lər üzrə tapşırıqların sayı
+          <span><md-icon ng-click="vm.excelExport('taskByRegion')" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon></span>
+        </div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">
+          <!-- MAIN -->
+          <div flex="65">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcraçı</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Tapşırıqların sayı</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcra olunan</span>
+                      </div>
+                    </th>
+                    <th>
+                      <div class="table-header">
+                        <span class="column-title">İcrada</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Qiymət</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="td-holder" ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                    <td>{{ data.completedValue || 0 }}</td>
+                    <td>{{ data.value - (data.completedValue || 0) }}</td>
+                    <td>{{ data.rating ||0 }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div flex="30">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vm.selectedChart == 'taskByDepartment'" flex>
+        <div class="md-title report-title" flex flex="100">
+          Şöbələr üzrə tapşırıqların sayı
+          <span><md-icon ng-click="vm.excelExport('taskByDepartment')" md-font-icon="icon-chevron-down" class="md-icon-button-pointer"></md-icon></span>
+        </div>
+        <div layout="row" class="holder" flex flex="100" layout-align="space-around start">
+          <!-- MAIN -->
+          <div flex="65">
+            <div class="white-bg md-whiteframe-4dp">
+              <table class="dataTable row-border hover" datatable="ng" dt-options="vm.dtOptions">
+                <thead>
+                  <tr>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcraçı</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Tapşırıqların sayı</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">İcra olunan</span>
+                      </div>
+                    </th>
+                    <th>
+                      <div class="table-header">
+                        <span class="column-title">İcrada</span>
+                      </div>
+                    </th>
+                    <th class="secondary-text">
+                      <div class="table-header">
+                        <span class="column-title">Qiymət</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                   <tr class="td-holder" ng-repeat="data in vm.thisReportData.data | orderBy:-value">
+                    <td>{{ data.name==null? "_Təyin edilməyib_":data.name }}</td>
+                    <td>{{ data.value }}</td>
+                    <td>{{ data.completedValue || 0 }}</td>
+                    <td>{{ data.value - (data.completedValue || 0) }}</td>
+                    <td>{{ data.rating ||0 }}</td>
+                   </tr>
+                <tfoot>
+                  <tr class="td-holder">
+                    <td>{{vm.thisReportData.totalData.name}}</td>
+                    <td>{{vm.thisReportData.totalData.value}}</td>
+                    <td>{{vm.thisReportData.totalData.completedValue || 0}}</td>
+                    <td>
+                      {{
+                       vm.thisReportData.totalData.value - (vm.thisReportData.totalData.completedValue
+                                                || 0)
+                      }}
+                    </td>
+                    <td>{{ vm.thisReportData.totalData.rating || 0 }}</td>
+                  </tr>
+                </tfoot>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div flex="30">
+            <div class="card md-whiteframe-4dp">
+              <canvas id="pie" class="chart chart-pie" chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-options="options">
+              </canvas>
+              <div class="md-title report-title flex" flex="">Cəmi: {{vm.thisReportData.totalCount}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- / MAIN -->
+    </div>
+
+    <!-- / CONTENT -->
+
+
+
+  </div>
+  <!-- / CONTENT -->
+
+
+
+
+
+</div>

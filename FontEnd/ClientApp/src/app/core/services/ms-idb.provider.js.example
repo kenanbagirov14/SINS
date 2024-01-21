@@ -1,0 +1,21 @@
+//console.log('hbbb', hub);
+angular.module('sins')
+    .provider('msIdb', function () {
+        //This will allow same connection to be used for all Hubs
+        //It also keeps connection as singleton. 
+
+        this.$get = function () {
+            var customerData = [
+                { ssn: "444-44-4906", name: "Dona", age: 35, email: "domni@company.com" },
+                { ssn: "555-55-5556", name: "Donna", age: 32, email: "donna@home.org" }
+            ];
+            var idb = {
+                // add: _add,
+                // create: _create
+            }
+
+            return idb;
+        }
+        // Data
+
+    })

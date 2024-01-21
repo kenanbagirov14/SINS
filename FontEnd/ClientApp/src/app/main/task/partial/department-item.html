@@ -1,0 +1,20 @@
+<md-menu>
+    <md-button class="md-icon-button" aria-label="More">
+        <md-icon md-font-icon="icon-dots-vertical grey-700-fg" ng-click="$mdOpenMenu($event)"></md-icon>
+    </md-button>
+    <md-menu-content width="3">
+        <md-menu-item>
+            <md-button ng-click="node.add.event($event,node.add.department)">
+                <md-icon md-font-icon="icon-border-color "></md-icon>
+                Şöbəni dəyiş
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ng-click="node.add.delete($event,node.add.department,'removeDepartment@save')">
+                <!-- ng-click="vm.openRequestDialog($event,sourceType,null,request)"-->
+                <md-icon md-font-icon="icon-close-circle-outline"></md-icon>
+                Şöbəni sil
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>

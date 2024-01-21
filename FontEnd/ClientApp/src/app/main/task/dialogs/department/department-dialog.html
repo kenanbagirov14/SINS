@@ -1,0 +1,40 @@
+<md-dialog class="department-dialog" aria-label="New Department">
+    <form name="newDepartmentForm" class="md-inline-form" novalidate>
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">{{vm.title}}</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+                    <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Adı</label>
+                    <input required ng-model="vm.newDepartmentForm.name" />
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Cavabdeh</label>
+                    <!--ng-disabled="vm.thisRequest.customerRequestType.departmentId" -->
+                    <md-select required ng-model="vm.newDepartmentForm.defaultUserId">
+                        <md-option ng-repeat="user in vm.users" value="{{user.id}}">
+                            {{user.firstName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start" class="date-container notes">
+                <label class="info-color" flex="10">Qeyd</label>
+                <textarea flex ng-model="vm.newProjectForm.description"></textarea>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions align="end">
+            <md-button type="submit" ng-click="vm.saveDepartment(vm.newDepartmentForm)" class="send-button md-accent md-raised"
+                aria-label="Saxla">
+                Əlavə et
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,40 @@
+<!-- SIDENAV HEADER -->
+<div class="header md-padding" layout="row" layout-align="start center">
+
+    <!-- USER -->
+    <!--<img ng-src="{{vm.user.avatar}}" class="md-avatar avatar mr-16"
+         alt="{{vm.user.name}}"/>-->
+    <span class="font-weight-500 font-size-14">Sorğunun vəziyyəti</span>
+    <!-- / USER -->
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<md-divider></md-divider>
+
+<!-- SIDENAV CONTENT -->
+<div ms-scroll class="content scrollable">
+
+    <md-list>
+
+        <md-list-item ng-click="vm.filterChange('all')" ng-class="{'selected':vm.listType ==='all'}">
+            <div class="md-accent">
+                Sorğu qəbul olundu -> AZNET-ə yönləndirildi
+            </div>
+        </md-list-item>
+
+        <md-list-item ng-click="vm.filterChange('frequent')" ng-class="{'selected':vm.listType ==='frequent'}">
+            <div class="md-accent" flex flex-offset="15"> 
+                 AZNET icraya götürdü
+            </div>
+        </md-list-item>
+
+        <md-list-item ng-click="vm.filterChange('starred')" ng-class="{'selected':vm.listType ==='starred'}">
+            <div  flex flex-offset="15">
+                AZNET sahə mühəndisinə yönlədirdi
+            </div>
+        </md-list-item>
+    </md-list>
+
+</div>
+<!-- / SIDENAV CONTENT -->

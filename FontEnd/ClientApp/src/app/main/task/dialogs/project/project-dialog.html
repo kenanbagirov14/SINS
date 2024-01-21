@@ -1,0 +1,117 @@
+<md-dialog class="project-dialog" aria-label="New Project">
+    <form name="newProjectForm" class="md-inline-form" novalidate>
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">{{vm.title}}</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+                    <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Adı</label>
+                    <input required ng-model="vm.newProjectForm.name" />
+
+                </md-input-container>
+                <!-- <md-menu flex="45" layout-align="center center" layout="row" class="title text text-truncate">
+                        <md-input-container flex="100" ng-click="$mdOpenMenu($event)">
+                            <label> Aidiyyatı bölmə</label>
+                            <input required type="text" name="fromType" ng-model="vm.defaultDepartment">
+                        </md-input-container>
+                        <md-menu-content style="position:relative" ms-scroll width="3">
+                            <md-list flex>
+                                <md-list flex>
+                                    <div ng-repeat="department in vm.departments">
+                                        <md-list-item  style="margin-left: 10px;" ng-mouseup="vm.mouseupEvent($event, department.childDepartments.length, department.id,  department.name)">
+                                            {{department.name}}
+                                            <i class="icon icon-chevron-down" ng-if="department.childDepartments.length>0"></i>
+                                        </md-list-item>
+                                        <div ng-repeat="childDepartment in department.childDepartments">
+                                            <md-list-item  ng-mouseup="vm.mouseupEvent($event, childDepartment.childDepartments.length, childDepartment.id,  childDepartment.name)"
+                                                style="margin-left: 30px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[department.id]">
+                                                {{childDepartment.name}}
+                                                <i class="icon icon-chevron-down" ng-if="childDepartment.childDepartments.length>0"></i>
+                                            </md-list-item>
+                                            <div ng-repeat="subChildDepartment in childDepartment.childDepartments">
+                                                <md-list-item   ng-mouseup="vm.mouseupEvent($event, subChildDepartment.childDepartments.length, subChildDepartment.id,  subChildDepartment.name)"
+                                                    style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[childDepartment.id]">
+                                                    {{subChildDepartment.name}}
+                                                    <i class="icon icon-chevron-down" ng-if="subChildDepartment.childDepartments.length>0"></i>
+                                                </md-list-item>
+                                                <div ng-repeat="subSubChildDepartment in subChildDepartment.childDepartments">
+                                                    <md-list-item  ng-mouseup="vm.mouseupEvent($event, subSubChildDepartment.childDepartments.length, subSubChildDepartment.id,  subSubChildDepartment.name)"
+                                                        style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[subChildDepartment.id]">
+                                                        {{subSubChildDepartment.name}}
+                                                        <i class="icon icon-chevron-down" ng-if="subSubChildDepartment.childDepartments.length>0"></i>
+                                                    </md-list-item>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </md-list>
+                            </md-list>
+                        </md-menu-content>
+                    </md-menu> -->
+
+                <md-menu flex="45" style="position:relative;" layout-align="center center" layout="row" class="title text text-truncate">
+                    <div ng-class="{'selected-filter':(vm.filterData.departmentId.length>0)}" class="title text text-truncate div-button" ng-click="$mdOpenMenu($event)"
+                        aria-label="status-menu">
+                        Aidiyyatı bölmə
+                        <i class="icon icon-chevron-down"></i>
+                    </div>
+                    <md-menu-content ng-mouseleave="vm.closeMenu()" style="position:relative" ms-scroll width="3">
+                        <md-list flex>
+                            <div ng-repeat="department in vm.departments">
+                                <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, department.id)" style="margin-left: 10px;">
+                                    <md-checkbox ng-disabled="department.childDepartments.length>0" ng-model="vm.newProjectForm.departmentIds[department.id]" aria-label="findByRequestType"></md-checkbox>
+                                    {{department.name}}
+                                    <i class="icon icon-chevron-down" ng-if="department.childDepartments.length>0"></i>
+                                </md-list-item>
+                                <div ng-repeat="childDepartment in department.childDepartments">
+                                    <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, childDepartment.id)"
+                                        style="margin-left: 30px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[department.id]">
+                                        <md-checkbox ng-disabled="childDepartment.childDepartments.length>0" ng-model="vm.newProjectForm.departmentIds[childDepartment.id]"
+                                            aria-label="findByType"></md-checkbox>
+                                        {{childDepartment.name}}
+                                        <i class="icon icon-chevron-down" ng-if="childDepartment.childDepartments.length>0"></i>
+                                    </md-list-item>
+                                    <div ng-repeat="subChildDepartment in childDepartment.childDepartments">
+                                        <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, subChildDepartment.id)"
+                                            style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[childDepartment.id]">
+                                            <md-checkbox ng-disabled="subChildDepartment.childDepartments.length>0" ng-model="vm.newProjectForm.departmentIds[subChildDepartment.id]"
+                                                aria-label="findByType"></md-checkbox>
+                                            {{subChildDepartment.name}}
+                                            <i class="icon icon-chevron-down" ng-if="subChildDepartment.childDepartments.length>0"></i>
+                                        </md-list-item>
+                                        <div ng-repeat="subSubChildDepartment in subChildDepartment.childDepartments">
+                                            <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, subSubChildDepartment.id)"
+                                                style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[subChildDepartment.id]">
+                                                <md-checkbox ng-disabled="subSubChildDepartment.childDepartments.length>0" ng-model="vm.newProjectForm.departmentIds[subSubChildDepartment.id]"
+                                                    aria-label="findByType"></md-checkbox>
+                                                {{subSubChildDepartment.name}}
+                                                <i class="icon icon-chevron-down" ng-if="subSubChildDepartment.childDepartments.length>0"></i>
+                                            </md-list-item>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-list>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start" class="date-container notes">
+                <label class="info-color" flex="10">Qeyd</label>
+                <textarea flex ng-model="vm.newProjectForm.description"></textarea>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions align="end">
+            <md-button type="submit" ng-click="vm.saveProject(vm.newProjectForm)" class="send-button md-accent md-raised" ng-disabled="vm.taskForm.isProgress"
+                aria-label="Saxla">
+                Əlavə et
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

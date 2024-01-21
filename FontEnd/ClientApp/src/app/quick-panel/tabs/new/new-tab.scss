@@ -1,0 +1,76 @@
+#quick-panel {
+
+    .new-tab {
+        padding: 10px;
+        md-list-item{
+            .md-icon-button{
+                z-index: 999;
+            }
+            // height: 64px;
+            .md-list-item-text{
+                font-size: 16px;
+            }
+            .md-list-item-inner{
+                padding: 5px 0px;
+            }
+            md-icon:first-of-type{
+                font-size: 24px;
+                margin: 0;
+            }
+            md-icon:last-of-type{
+                align-self: flex-start;
+                justify-self: flex-start;
+            }
+            .second-row , .first-row{
+                line-height: 1;
+                .date{
+                    md-icon{
+                        line-height: 1.4;
+                        font-size: 16px;
+                    }
+                }
+                // >div{
+                //     box-sizing: border-box;
+                // }
+                // .user{
+                //     float: right;
+                //     width: 30%;
+                // }
+                // .date{
+                //     float: left;
+                //     width: 70%
+                // }
+                // clear: both;
+                width: 100%;
+            }
+        }
+        
+        .header{
+            margin: 10px;
+        }
+        .status_1{
+            color: rgb(103,58,183);
+            @extend .icon-checkbox-blank-circle-outline
+        }
+        .status_2{
+            color: rgb(103,58,183); //rgb(156,39,176);
+            @extend .icon-check-circle;
+        }
+        .status_3{
+            color: rgb(76,175,80);
+            @extend .icon-checkbox-marked-circle;
+        }
+        .status_4{
+           @extend .icon-close-circle-outline;
+        }
+        .status_5{
+          @extend  .icon-arrow-right-bold-circle-outline;
+          color:rgb(255,152,0);
+    
+        }
+
+        .unread-message{
+            background: rgba(44, 106, 150, 0.10);
+        }
+    }
+}

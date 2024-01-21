@@ -1,0 +1,539 @@
+<!--<div ng-include="'/app/main/request/sidenavs/sidenav.html'"></div>-->
+<div id="request" class="page-layout simple left-sidenav inner-sidenav right-sidenav">
+    <md-progress-linear class="md-warn" ng-show="vm.findIsInProgress" md-mode="indeterminate"></md-progress-linear>
+    <!-- HEADER -->
+    <!--<div class="header md-accent-bg" layout="row" layout-align="space-between center">-->
+
+    <!-- APP TITLE -->
+    <!--<div layout="row" layout-align="start center">
+            <md-button class="md-icon-button sidenav-toggle" hide-gt-md aria-label="Toggle sidenav">
+                <md-icon md-font-icon="icon-menu" class="icon">SideNav</md-icon>
+            </md-button>
+
+            <div class="logo" layout="row" layout-align="start center">
+                <span class="logo-icon">
+                    <md-icon md-font-icon="icon-account-box" class="s24"></md-icon>
+                </span>
+                <span class="logo-text">Sorğular</span>
+            </div>
+        </div>-->
+    <!-- / APP TITLE -->
+
+    <!-- SEARCH -->
+    <!--<div class="search-input-wrapper" layout="row" layout-align="start center">
+            <label for="search">
+                <md-icon md-font-icon="icon-magnify"></md-icon>
+            </label>
+            <md-input-container md-no-float class="m-0">
+                <input id="search" placeholder="Axtar" type="text" ng-model="vm.search" placeholder="Axtar">
+            </md-input-container>
+        </div>-->
+    <!-- / SEARCH -->
+
+    <!--</div>-->
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="contents">
+        <md-nav-bar md-selected-nav-item="vm.selectedTab" nav-bar-aria-label="navigation links">
+            <div class="filters">
+                <!-- <md-menu layout-align="center center" layout="row" class="title text text-truncate">
+                    <div class="title text text-truncate div-button" ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                        {{vm.selectedTabName}}
+                        <i class="icon icon-chevron-down"></i>
+                    </div>
+                    <md-menu-content width="3">
+                        <md-menu-item ng-repeat="sourceType in vm.sourceTypes">
+                            <md-button ng-click="vm.thisTabSelected($event,sourceType)">
+                                <span>{{sourceType.name}}</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu> -->
+
+                <md-menu style="position:relative;" layout-align="center center" layout="row" class="title text text-truncate">
+                    <div ng-class="{'selected-filter':(vm.filterData.departmentId.length>0)}" class="title text text-truncate div-button" ng-click="$mdOpenMenu($event)"
+                        aria-label="status-menu">
+                        Şöbəyə görə
+                        <i class="icon icon-chevron-down"></i>
+                    </div>
+                    <md-menu-content ng-mouseleave="vm.closeMenu()" style="position:relative" ms-scroll width="3">
+                        <md-list flex>
+                            <div ng-repeat="department in vm.departmentListSearch.departments | filter:{parentDepartmentId:null}">
+                                <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, department.id)" style="margin-left: 10px;">
+                                    <md-checkbox ng-change="vm.selectChilds(department.id,department.childDepartments)" ng-model="vm.filter.departmentIds[department.id]"
+                                        aria-label="findByRequestType"></md-checkbox>
+                                    {{department.name}}
+                                    <i class="icon icon-chevron-down" ng-if="department.childDepartments.length>0"></i>
+                                </md-list-item>
+                                <div ng-repeat="childDepartment in department.childDepartments">
+                                    <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, childDepartment.id)"
+                                        style="margin-left: 30px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[department.id]">
+                                        <md-checkbox ng-model="vm.filter.departmentIds[childDepartment.id]" aria-label="findByType"></md-checkbox>
+                                        {{childDepartment.name}}
+                                        <i class="icon icon-chevron-down" ng-if="childDepartment.childDepartments.length>0"></i>
+                                    </md-list-item>
+                                    <div ng-repeat="subChildDepartment in childDepartment.childDepartments">
+                                        <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, subChildDepartment.id)"
+                                            style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[childDepartment.id]">
+                                            <md-checkbox ng-model="vm.filter.departmentIds[subChildDepartment.id]" aria-label="findByType"></md-checkbox>
+                                            {{subChildDepartment.name}}
+                                            <i class="icon icon-chevron-down" ng-if="subChildDepartment.childDepartments.length>0"></i>
+                                        </md-list-item>
+                                        <div ng-repeat="subSubChildDepartment in subChildDepartment.childDepartments">
+                                            <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showDepartmentChild($event, subSubChildDepartment.id)"
+                                                style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[subChildDepartment.id]">
+                                                <md-checkbox ng-model="vm.filter.departmentIds[subSubChildDepartment.id]" aria-label="findByType"></md-checkbox>
+                                                {{subSubChildDepartment.name}}
+                                                <i class="icon icon-chevron-down" ng-if="subSubChildDepartment.childDepartments.length>0"></i>
+                                            </md-list-item>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-list>
+                    </md-menu-content>
+                </md-menu>
+                <!-- <md-menu-item ng-repeat="(key,value) in vm.requestStatusList">
+                        <md-button>
+                            <md-checkbox ng-model="vm.filter.requestStatusIds[key]" aria-label="findByType">{{value}}</md-checkbox>
+                        </md-button>
+                    </md-menu-item> -->
+                <!-- <md-autocomplete class="no-float" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="18" md-no-cache="vm.noCache"
+                    md-selected-item-change="vm.filter.departmentId=vm.filter.department.id" md-selected-item="vm.filter.department"
+                    md-search-text="vm.departmentListSearch.searchText" md-items="item in vm.departmentListSearch.querySearch(vm.departmentListSearch.searchText,vm.departmentListSearch.departments,'name')"
+                    md-item-text="item.name" md-require-match md-floating-label="Şöbəyə görə">
+                    <md-item-template>
+                        <span md-highlight-text="vm.departmentListSearch.searchText">{{item.name}}</span>
+                    </md-item-template>
+                </md-autocomplete> -->
+                <md-menu style="position:relative;" layout-align="center center" layout="row" class="title text text-truncate">
+                    <div ng-class="{'selected-filter':(vm.filterData.customerRequestTypeId.length>0)}" class="title text text-truncate div-button"
+                        ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                        Sifariş növü
+                        <i class="icon icon-chevron-down"></i>
+                    </div>
+                    <md-menu-content ng-mouseleave="vm.closeMenu()" style="position:relative" ms-scroll width="3">
+                        <md-list flex>
+                            <md-list-item md-prevent-menu-close="md-prevent-menu-close" ng-mouseup="vm.showRequestTypeChild($event, requestType.id)"
+                                style="margin-left: 10px;" ng-repeat-start="requestType in vm.requestTypes | filter:{parentRequestTypeId:null}">
+                                <md-checkbox ng-disabled="requestType.childRequestTypes.length>0" ng-model="vm.filter.requestTypeIds[requestType.id]" aria-label="findByRequestType"></md-checkbox>
+                                {{requestType.name}}
+                                <i class="icon icon-chevron-down" ng-if="requestType.childRequestTypes.length>0"></i>
+                            </md-list-item>
+                            <md-list-item style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isRequestTypeChildShown[requestType.id]"
+                                ng-repeat-end ng-repeat="childRequestType in requestType.childRequestTypes">
+                                <md-checkbox ng-model="vm.filter.requestTypeIds[childRequestType.id]" aria-label="findByType"></md-checkbox>
+                                {{childRequestType.name}}
+                            </md-list-item>
+                        </md-list>
+                    </md-menu-content>
+                </md-menu>
+
+                <!-- <md-menu layout-align="center center" layout="row" class="title text text-truncate">
+                    <div ng-class="{'selected-filter':(vm.filterData.customerRequestTypeId.length>0)}" class="title text text-truncate div-button"
+                        ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                        Sifariş növü
+                        <i class="icon icon-chevron-down"></i>
+                    </div>
+                    <md-menu-content width="3">
+                        <md-menu-item ng-repeat="requestType in vm.requestTypes">
+                            <md-button>
+                                <md-checkbox ng-model="vm.filter.requestTypeIds[requestType.id]" aria-label="findByType">{{requestType.name}}</md-checkbox>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu> -->
+
+                <md-menu layout-align="center center" layout="row" class="title text text-truncate">
+                    <div ng-class="{'selected-filter':(vm.filterData.requestStatusId.length>0)}" class="title text text-truncate div-button"
+                        ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                        Status
+                        <i class="icon icon-chevron-down"></i>
+                    </div>
+                    <md-menu-content ng-mouseleave="vm.closeMenu()" width="3">
+                        <md-menu-item ng-repeat="(key,value) in vm.requestStatusList">
+                            <md-list-item>
+                                <md-checkbox ng-model="vm.filter.requestStatusIds[key]" aria-label="findByType"></md-checkbox>
+                                {{value}}
+                            </md-list-item>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+
+
+
+                <div layout="row" layout-align="space-between center">
+                    <md-datepicker ms-datepicker-fix flex="50" ng-model="vm.filter.startDateFrom" md-placeholder="Start"></md-datepicker>
+                    <md-datepicker ms-datepicker-fix flex="50" ng-model="vm.filter.startDateTo" md-placeholder="End"></md-datepicker>
+                </div>
+                <div style="margin-right:10px">
+                    <md-icon ng-click="vm.filterService(vm.filter)" class="md-icon-button-pointer" flex md-font-icon="icon-magnify"></md-icon>
+                    <md-icon ng-click="vm.clearFilter()" md-font-icon="icon-close" aria-label="clearFilter" class="md-icon-button-pointer"></md-icon>
+                    <md-icon ng-click="vm.saveFilter($event,vm.filter)" md-font-icon="icon-content-save" aria-label="saveFilter" class="md-icon-button-pointer"></md-icon>
+                </div>
+                <md-menu>
+                    <md-button class="md-icon-button" aria-label="More">
+                        <md-tooltip md-direction="top">Əməliyyatlar</md-tooltip>
+                        <md-icon md-font-icon="icon-dots-vertical" ng-click="$mdOpenMenu($event)"></md-icon>
+                    </md-button>
+                    <md-menu-content width="3" flex>
+                        <md-menu-item>
+                            <md-button ng-click="vm.filter.createdUserId=vm.authData.userId; vm.filterService(vm.filter)" aria-label="get-info">
+                                Əlavə etdiyim müraciətlər
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item flex ng-repeat="set in vm.userRequestSettings">
+                            <md-button flex layout="row" layout-align="space-between center" aria-label="get-info">
+                                <span flex ng-click=" vm.filterService(set.settings,true)">{{set.name}}</span>
+                                <md-icon flex ng-click="vm.delFilter($event,set)" md-font-icon="icon-close" aria-label="clearFilter" class="md-icon-button-pointer"></md-icon>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+
+                </md-menu>
+                <!-- <md-menu class="md-accent md-raised">
+                    <md-button class="md-icon-button" aria-label="Sort">
+                        <md-icon md-font-icon="icon-sort-alphabetical" ng-click="$mdOpenMenu($event)"></md-icon>
+                    </md-button>
+
+                    <md-menu-content width="3">
+
+                        <md-menu-item>
+                            <md-button ng-click="vm.listOrder = 'name';vm.listOrderAsc = false" ng-style="vm.listOrder === 'name' && vm.listOrderAsc=== false && {'font-weight':'500'}">
+                                <span>Sifarişçi</span>
+                                <small>(A to Z)</small>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="vm.listOrder = 'name'; vm.listOrderAsc = true" ng-style="vm.listOrder === 'name' && vm.listOrderAsc=== true && {'font-weight':'500'}">
+                                <span>Sifarişçi</span>
+                                <small>(Z to A)</small>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="vm.listOrder = 'lastName';vm.listOrderAsc = false" ng-style="vm.listOrder === 'lastName' && vm.listOrderAsc=== false && {'font-weight':'500'}">
+                                <span>Tarix</span>
+                                <small>(yenidən köhnəyə)</small>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="vm.listOrder = 'lastName'; vm.listOrderAsc = true" ng-style="vm.listOrder === 'lastName' && vm.listOrderAsc=== true && {'font-weight':'500'}">
+                                <span>Tarix</span>
+                                <small>(köhnədən yeniyə)</small>
+                            </md-button>
+                        </md-menu-item>
+
+                    </md-menu-content>
+
+                </md-menu> -->
+
+                <!-- <md-nav-item ng-repeat="sourceType in vm.sourceTypes" md-nav-click="vm.thisTabSelected($event,sourceType)" name="{{sourceType.id}}">
+                {{sourceType.name}}
+            </md-nav-item> -->
+
+            </div>
+        </md-nav-bar>
+        <div ng-show="!vm.findIsInProgress">
+            <!-- <div ng-show="vm.selectedRequests.length > 0" class="selected-bar header animate-slide-down md-accent-bg" layout="row" layout-align="start center">
+
+                <div class="close-button-wrapper" ng-click="vm.selectedRequests =[]">
+                    <md-button layout="row" layout-align="start center">
+                        <md-icon md-font-icon="icon-arrow-left" class="mr-8"></md-icon>
+                        <span>Geri</span>
+                    </md-button>
+                </div>
+
+                <div flex layout="row" layout-align="space-between center">
+
+                    <div>
+                        <div class="selected-contacts-count">
+                            <span>{{vm.selectedRequests.length}}</span>
+                            <span>seçilmiş</span>
+                        </div>
+
+                        <md-menu class="select-menu" ng-if="!vm.currentThread">
+                            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label="multi select toggle">
+                                <md-icon md-font-icon="icon-menu-down"></md-icon>
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item>
+                                    <md-button ng-click="vm.selectAllContacts()">
+                                        Hamısını seç
+                                    </md-button>
+                                </md-menu-item>
+                                <md-menu-item>
+                                    <md-button ng-click="vm.deselectContacts()">
+                                        Heç birini seçmə
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+
+                    <div class="multi-select-actions">
+                        <md-button class="md-icon-button" ng-click="vm.deleteSelectedContacts($event)" aria-label="delete selected">
+                            <md-icon md-font-icon="icon-delete"></md-icon>
+                        </md-button>
+                    </div>
+
+                </div>
+
+            </div> -->
+            <!-- / SELECTED BAR -->
+
+            <!-- CONTENT -->
+            <div class="content" ms-scroll md-background-bg layout="row" layout-align="start start">
+                <!-- MAIN -->
+                <div class="main">
+
+                    <!-- CONTACT LIST -->
+                    <md-list class="contacts-list">
+
+                        <!-- CONTACT LIST HEADER -->
+                        <!-- <md-subheader class="md-white-bg">
+                            <div layout="row" layout-align="space-between center">
+
+                                <div class="list-title" layout="row" layout-align="start center" ng-hide="editGroupForm.$visible">
+                                    <span>{{vm.listType}}</span>
+
+                                    <span ng-if="filteredRequests.length" class="secondary-text contacts-count"> </span>
+                                </div>
+                            </div>
+                        </md-subheader> -->
+                        <!-- / CONTACT LIST HEADER -->
+                        <md-subheader ng-hide="false" class="md-primary">
+                            <div layout="row" flex layout-align="space-between center">
+                                <span flex="initial" layout-align="center center">
+                                    <span>{{vm.requests.length}} / {{vm.totalRequests}}</span>
+                                </span>
+                                <div flex="10" layout="column" layout-align="center center" class="info">
+                                    <div class="title text text-truncate">ID</div>
+                                    <div class="notes text text-truncate">Açıldığı tarix</div>
+                                </div>
+                                <div flex="30" class="info">
+                                    <div class="title text text-truncate">Bölmə | Müraciət növü</div>
+                                    <div class="notes text text-truncate">
+                                        <span class="icon-account"></span>Sifarişçi
+                                        <span class="icon-phone"></span>Nömrə</div>
+                                </div>
+                                <div flex="10" layout="column" layout-align="center center" class="info">
+                                    <div class="title text text-truncate">Başlama tarixi</div>
+                                    <div class="notes text text-truncate">Qəbul edən</div>
+                                </div>
+                                <div flex="15" layout="column" layout-align="center center" class="info">
+                                    <div class="title text text-truncate">Status</div>
+                                    <div class="notes text text-truncate">Son status tarixi</div>
+                                </div>
+                                <div class="actions" layout="row" layout-align="start center">
+
+                                    <md-button style="visibility:hidden" type="submit" class="md-defualt" aria-label="get info" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                                        <md-tooltip md-direction="top">Ətraflı baxış</md-tooltip>
+                                        <md-icon md-font-icon="icon-email"></md-icon>
+                                    </md-button>
+                                    <md-button style="visibility:hidden" type="submit" class="md-defualt" aria-label="get info" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                                        <md-tooltip md-direction="top">Ətraflı baxış</md-tooltip>
+                                        <md-icon md-font-icon="icon-information-outline"></md-icon>
+                                    </md-button>
+                                    <md-button style="visibility:hidden" type="submit" class="md-accent" aria-label="Create Task" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                                        <md-tooltip md-direction="top">Tapşırıq yarat</md-tooltip>
+                                        <md-icon md-font-icon="icon-alarm-plus"></md-icon>
+                                    </md-button>
+
+                                    <md-menu style="visibility:hidden">
+                                        <md-button class="md-icon-button" aria-label="More">
+                                            <md-tooltip md-direction="top">Əməliyyatlar</md-tooltip>
+                                            <md-icon md-font-icon="icon-dots-vertical"></md-icon>
+                                        </md-button>
+                                        <md-menu-content width="3">
+                                            <md-menu-item>
+                                                <md-button ng-click="vm.openEmailDialog($event,request)" aria-label="get-info">
+                                                    <md-icon md-font-icon="icon-email"></md-icon>
+                                                    Email-lə cavab ver
+                                                </md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+
+                                    </md-menu>
+                                </div>
+
+                            </div>
+                        </md-subheader>
+                        <!-- CONTACT ITEM -->
+
+                        <!--ng-style="{'transform': 'translate3d(0px, '+$index * 100+'%, 0px)', 'z-index': filteredRequests.length - $index}"-->
+                        <div class="request-list" ng-cloak layout="column" ng-repeat="request in vm.requests | filter: (vm.statusFilter?{requestStatus :{id: vm.statusFilter}}:'') | filter: vm.search | filter: global.search | filterByIds:vm.filterIds |  orderBy: vm.listOrder :vm.listOrderAsc | filter:query as filteredRequests track by $index "
+                            ng-class="{'md-light-blue-100-bg selected': vm.card[request.id]}">
+                            <md-list-item aria-label="md-list-{{request.id}}" ng-click="vm.showCard(request.id)" class="md-white-bg" md-ink-ripple>
+                                <div layout="row" flex="100" layout-align="space-between center">
+                                    <span flex="initial" layout-align="center center">
+                                        <!-- <md-checkbox ng-checked="vm.exists(request, vm.selectedRequests)" ng-click="vm.toggleSelectRequest(request, $event)" aria-label="{{vm.exists(request, vm.selectedRequests) ? 'Deselect' : 'Select'}}">
+                                        </md-checkbox> -->
+                                        <md-icon flex="3" ng-class="('status_'+request.requestStatusId)" class="icon-check"></md-icon>
+                                    </span>
+                                    <div flex="10" layout="column" layout-align="center center" class="info">
+                                        <div class="title text text-truncate">{{request.id}}</div>
+                                        <div class="notes text text-truncate">{{request.createdDate | altDate}}</div>
+                                    </div>
+                                    <div flex="30" class="info" layout="column" layout-align="start start">
+                                        <div ng-if="request.customerRequestTypeId !=45 " class="title text text-truncate">{{request.department.name}} | {{request.customerRequestType.name}}</div>
+                                        <div ng-if="request.customerRequestTypeId ==45 " class="title text text-truncate">{{request.text}} | {{request.customerRequestType.name}}</div>
+                                        <div class="notes text text-truncate" flex>
+                                            <span class="icon-account"></span>{{request.customerName}}
+                                            <span class="icon-phone"></span>{{request.customerNumber}}</div>
+                                    </div>
+                                    <div flex="10" layout="column" layout-align="center center" class="info">
+                                        <div class="title text text-truncate">{{request.createdUser.userName}}</div>
+                                        <div class="notes text text-truncate">{{request.startDate | altDate}}</div>
+                                    </div>
+                                    <div flex="15" layout="column" layout-align="center center" class="info">
+                                        <div class="title text text-truncate">{{vm.requestStatusList[request.requestStatus.id]}}</div>
+                                        <div class="notes text text-truncate">{{(request.requestStatus.createdDate ||request.createdDate) | altDate}}</div>
+                                    </div>
+                                    <!-- <div class="title text" flex="15"> {{vm.requestStatusList[request.requestStatus.id]}}</div> -->
+                                    <!-- <md-menu flex="15" class="text-truncate">
+                                        <md-button class="md-button md-primary" ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                                            {{vm.requestStatusList[request.requestStatus.id]}}
+                                        </md-button>
+                                        <md-menu-content width="3">
+                                            <md-menu-item ng-repeat="(key,value) in vm.requestStatusList" ng-click="vm.setRequestStatus(request,key)">
+                                                <md-button>
+                                                    {{value}}
+                                                </md-button>
+                                            </md-menu-item>
+                                        </md-menu-content>
+                                    </md-menu> -->
+                                    <!-- <span class="text text-truncate hide show-gt-lg" flex="10"> {{request.requestStatus.createdDate | date:'HH:mm dd-MM'}}</span> -->
+                                    <!--<div flex="25" ng-bind-html="request.text | toTrusted" class="text text-truncate show-gt-lg"></div>-->
+                                    <div class="actions" layout="row" layout-align="start center">
+                                        <md-button ng-if="request.requestEmail.length>0" type="submit" ng-click="vm.openRequestReplyDialog($event,request)" class="md-defualt"
+                                            aria-label="get-email" class="md-button md-mini md-accent">
+                                            <md-tooltip md-direction="top">Göndərilmiş emaillər</md-tooltip>
+                                            <md-icon md-font-icon="icon-email"></md-icon>
+                                        </md-button>
+                                        <md-button class="opacity0" ng-if="!request.requestEmail.length>0" aria-label="get-email-empty">
+                                            <md-icon></md-icon>
+                                        </md-button>
+                                        <md-button type="submit" ng-click="vm.openRequestInfoDialog($event,request)" class="md-defualt" aria-label="get-info" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                                            <md-tooltip md-direction="top">Ətraflı baxış</md-tooltip>
+                                            <md-icon md-font-icon="icon-information-outline"></md-icon>
+                                        </md-button>
+                                        <md-button ng-if="request.requestStatus.id !=5 && request.requestStatus.id !=4" type="submit" ng-click="vm.openTaskDialog($event,request)"
+                                            class="md-accent" aria-label="Create Task" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                                            <md-tooltip md-direction="top">Tapşırıq yarat</md-tooltip>
+                                            <md-icon md-font-icon="icon-alarm-plus"></md-icon>
+                                        </md-button>
+                                        <md-button ng-if="request.requestStatus.id == 4 || request.requestStatus.id ==5" type="submit" class="md-default" aria-label="Create Task"
+                                            class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                                            <md-tooltip md-direction="top">Müraciət bağlıdır</md-tooltip>
+                                            <md-icon md-font-icon="icon-alarm-plus"></md-icon>
+                                        </md-button>
+                                        <md-menu>
+                                            <md-button class="md-icon-button" aria-label="More">
+                                                <md-tooltip md-direction="top">Əməliyyatlar</md-tooltip>
+                                                <md-icon md-font-icon="icon-dots-vertical" ng-click="$mdOpenMenu($event)"></md-icon>
+                                            </md-button>
+                                            <md-menu-content width="3">
+                                                <md-menu-item>
+                                                    <md-button ng-click="vm.openRequestInfoDialog($event,request)" aria-label="get-info">
+                                                        <md-icon md-font-icon="icon-border-color"></md-icon>
+                                                        Sorğunu dəyiş
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item>
+                                                    <md-button ng-click="vm.openTaskDialog($event,request)" aria-label="get-info">
+                                                        <md-icon md-font-icon="icon-check-circle"></md-icon>
+                                                        Tapşırıq yarat
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item ng-if="request.mailUniqueId">
+                                                    <md-button ng-click="vm.openEmailDialog($event,request)" aria-label="get-info">
+                                                        <md-icon md-font-icon="icon-email"></md-icon>
+                                                        Email-lə cavab ver
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item ng-if="request.sourceTypeId==1&&vm.hasAccess('deleteRequest')">
+                                                    <md-button ng-click="vm.deleteRequest ($event,request)" aria-label="get-info">
+                                                        <md-icon md-font-icon="icon-delete"></md-icon>
+                                                        Müraciəti sil
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item>
+                                                    <angular-rating-icons on-change="vm.updateRating(request.rating.id,request.rating.requestPoint,request.id)" ng-model="request.rating.requestPoint"></angular-rating-icons>
+                                                </md-menu-item>
+                                            </md-menu-content>
+                                        </md-menu>
+                                    </div>
+                                </div>
+                            </md-list-item>
+
+                            <!-- MS-CARD -->
+                            <ms-card class="animate-down_" ng-show="vm.card[request.id]" ng-model="request.mainTask" view-model="vm" template="'app/main/request/partial/request-task.html'"></ms-card>
+                            <!-- / MS-CARD -->
+
+                        </div>
+                        <md-list-item ng-click="vm.loadMore()" ng-show="!vm.endOfResponse && !vm.loadMoreIsInProgress " class="no-results md-white-bg loadmore">
+                            <p>... daha çox ...</p>
+                        </md-list-item>
+                        <md-progress-linear class="md-warn" ng-show="vm.loadMoreIsInProgress" md-mode="indeterminate"></md-progress-linear>
+                        <!-- CONTACT ITEM -->
+
+                    </md-list>
+                    <!-- / CONTACT LIST -->
+
+                    <!-- NO RESULTS -->
+                    <md-list-item class="no-results md-white-bg" ng-show="filteredRequests.length === 0">
+                        <p>Sorğu tapılmadı</p>
+                    </md-list-item>
+                    <!-- / NO RESULTS -->
+
+                </div>
+                <!-- / MAIN -->
+
+                <!--right -->
+                <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="details" ng-include="'app/main/request/sidenavs/details/details-sidenav.html'">
+                </md-sidenav>
+                <!--/right -->
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+
+
+
+
+    <!-- ADD CONTACT BUTTON -->
+
+    <md-fab-speed-dial ng-if="vm.hasAccess('requestAddInternal')" id="add-contact-button"
+    md-open="vm.isOpen" md-direction="up" class="md-scale md-fab md-accent md-icon-button">
+    <md-fab-trigger>
+        <md-button ng-click="vm.openRequestDialog($event,vm.sourceTypes[4])" aria-label="New Request" aria-label="menu" class="md-fab md-warn rotate-180">
+            <md-icon md-font-icon="icon-loupe"></md-icon>
+        </md-button>
+    </md-fab-trigger>
+
+
+        <!-- <md-fab-actions layout="column" layout-align="end end">
+            <md-button ng-repeat=" sourceType in vm.sourceTypes" ng-click="vm.openRequestDialog($event,sourceType)" aria-label="Request"
+                class=" md-button md-raised md-mini md-accent " ng-class="{'md-orange-700-bg':sourceType.id==2, 'md-deep-purple-500-bg':sourceType.id==1}">
+                <md-icon ng-if="sourceType.id==2 && vm.hasAccess('requestAddInternal') " md-font-icon="icon-account-multiple"></md-icon>
+                <md-icon ng-if="sourceType.id==1 && vm.hasAccess('requestAddAbonent') " md-font-icon="icon-disqus"></md-icon>
+                {{sourceType.name}}
+            </md-button>
+
+            <md-button ng-click="vm.sendHub('salam')" aria-label="Task" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                <md-icon md-font-icon="icon-alarm-plus"></md-icon>
+                Tapşırıq
+            </md-button>
+
+        </md-fab-actions> -->
+    </md-fab-speed-dial>
+    <!-- / ADD CONTACT BUTTON -->
+
+</div>

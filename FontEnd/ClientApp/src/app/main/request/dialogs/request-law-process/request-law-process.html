@@ -1,0 +1,265 @@
+<md-dialog class="law-process" aria-label="Law Process">
+  <form name="requestForm" class="md-inline-form" novalidate>
+    <md-toolbar class="md-accent md-hue-2">
+      <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <span class="title">{{vm.title}}</span>
+        <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+          <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content ms-scroll ng-init="inputDateTime=[];orderDateTime=[]">
+      <md-tabs md-selected="vm.selectedIndex" md-dynamic-height md-border-bottom>
+        <md-tab label="Ümumi məlumat">
+          <md-content class="md-padding">
+
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+
+              <md-input-container flex="30">
+                <label>Tərəfin növü</label>
+                <md-select ms-scroll flex required ng-model="vm.requestForm.customerParentRequestTypeId">
+                  <md-option ng-repeat="type in vm.requestTypesFilter  | filter : {parentRequestTypeId:null,sourceTypeId:vm.sourceType.id}  "
+                    value="{{type.id}}">
+                    {{type.name}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container flex="30">
+                <label>Tələb</label>
+                <md-select ms-scroll flex required ng-model="vm.requestForm.customerRequestTypeId">
+                  <md-option ng-repeat="type in (vm.requestTypesFilter | filter: { id: vm.requestForm.customerParentRequestTypeId })[0].childRequestTypes"
+                    value="{{type.id}}">
+                    {{type.name}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+              <div flex="30" layout="row" layout-align="space-between start" class="date-container">
+                <label class="info-color" flex="40">Tarix/Vaxt</label>
+                <input required flex="60" mdc-datetime-picker date="true" class="md-input" time="false" type="text" id="time"
+                  placeholder="Vaxt" show-todays-date format="DD.MM.YYYY" ng-model="vm.requestForm.startDate">
+              </div>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+              <md-menu flex layout-align="center center" layout="row" class="title text text-truncate">
+                <md-input-container flex="100" ng-click="$mdOpenMenu($event)">
+                  <label>{{ vm.requestForm.placeHolder.from||"Aztelekom tərəfdən"}}</label>
+                  <input required type="text" name="fromType" ng-model="vm.requestForm.department.name">
+                </md-input-container>
+                <md-menu-content style="position:relative" width="3">
+                  <md-list flex>
+                    <div ng-repeat="department in vm.departmentList.departments">
+                      <md-list-item style="margin-left: 10px;">
+                        <span ng-click="vm.mouseupEvent($event, department.childDepartments.length, department,department.childDepartments)">
+                          {{department.name}}</span>
+                        <i ng-mouseup="vm.mouseupEventShow($event, department.childDepartments.length, department.id,  department.name)"
+                          class="icon icon-chevron-down" ng-if="department.childDepartments.length>0"></i>
+                      </md-list-item>
+                      <div ng-repeat="childDepartment in department.childDepartments">
+                        <md-list-item style="margin-left: 30px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[department.id]">
+
+                          <span ng-click="vm.mouseupEvent($event, childDepartment.childDepartments.length, childDepartment,childDepartment.childDepartments)">
+                            {{childDepartment.name}}</span>
+                          <i ng-mouseup="vm.mouseupEventShow($event, childDepartment.childDepartments.length, childDepartment.id,  childDepartment.name)"
+                            class="icon icon-chevron-down" ng-if="childDepartment.childDepartments.length>0"></i>
+                        </md-list-item>
+                        <div ng-repeat="subChildDepartment in childDepartment.childDepartments">
+                          <md-list-item style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[childDepartment.id]">
+                            <span ng-click="vm.mouseupEvent($event, subChildDepartment.childDepartments.length, subChildDepartment,subChildDepartment.childDepartments)">
+                              {{subChildDepartment.name}}</span>
+                            <i ng-mouseup="vm.mouseupEventShow($event, subChildDepartment.childDepartments.length, subChildDepartment.id,  subChildDepartment.name)"
+                              class="icon icon-chevron-down" ng-if="subChildDepartment.childDepartments.length>0"></i>
+                          </md-list-item>
+                          <div ng-repeat="subSubChildDepartment in subChildDepartment.childDepartments">
+                            <md-list-item style="margin-left: 50px; min-height: 28px;height:28px;" ng-if="vm.isDepartmentChildShown[subChildDepartment.id]">
+                              <span ng-click="vm.mouseupEvent($event, subSubChildDepartment.childDepartments.length, subSubChildDepartment,subSubChildDepartment.childDepartments)">
+                                {{subSubChildDepartment.name}}</span>
+                              <i ng-mouseup="vm.mouseupEventShow($event, subSubChildDepartment.childDepartments.length, subSubChildDepartment.id,  subSubChildDepartment.name)"
+                                class="icon icon-chevron-down" ng-if="subSubChildDepartment.childDepartments.length>0"></i>
+                            </md-list-item>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </md-list>
+                </md-menu-content>
+              </md-menu>
+              <md-input-container flex="45">
+                <label>İcraçının əlaqə nömrəsi</label>
+                <input required pattern="\d*" maxlength="9" minlength="{{vm.sourceType.id == 1?3:9}}" autocomplete="off"
+                  ng-change="vm.numberBlur(vm.requestForm.customerNumber)" name="customerNumber" ng-model="vm.requestForm.customerNumber">
+              </md-input-container>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+              <md-input-container flex="45">
+                <label>Qarşı tərəf</label>
+                <input required type="text" name="customerName" ng-model="vm.requestForm.customerName">
+              </md-input-container>
+              <md-input-container flex="45">
+                <label>Əlaqə nömrəsi</label>
+                <input type="text" name="contactNumber" ng-model="vm.requestForm.contactNumber">
+              </md-input-container>
+            </div>
+            <div class="notes">
+              <label>Qeyd</label>
+              <text-angular ng-model="vm.requestForm.text"></text-angular>
+            </div>
+            <div class="attachment-list">
+              <div class="attachment" layout="row" layout-align="space-between center" ng-repeat="attachment in vm.requestForm.attachment">
+                <div>
+                  <span class="filename">{{attachment.description}}</span>
+                  <span class="size">{{attachment.createdDate}}</span>
+                </div>
+                <md-button ng-click="vm.removeFile($index)" class="md-icon-button">
+                  <md-icon md-font-icon="icon-close" aria-label="delete attachment" class="s16"></md-icon>
+                </md-button>
+              </div>
+              <div ng-show="vm.requestForm.isProgress" class="attachment" layout="row" layout-align="space-between center">
+                <div>
+                  <span class="filename">file upload on progressing</span>
+                  <span class="size">please wait...</span>
+                </div>
+                <md-button ng-click="vm.removeFile($index)" class="md-icon-button">
+                  <md-icon md-font-icon="icon-close" aria-label="delete attachment" class="s16"></md-icon>
+                </md-button>
+              </div>
+            </div>
+            <div style="text-align:right" flex="100" layout="row" layout-align="space-between start ">
+              <div flex="45">
+                <choose-file layout-align="space-between center" layout="row">
+                  <input id="fileInput" type='file' ng-model='vm.requestFile' onload="vm.requestFileSelected"
+                    base-sixty-four-input type="file" class="ng-hide">
+                  <div flex="20">
+                    <md-button ng-disabled="vm.requestForm.isProgress" id="uploadButton" class="md-icon-button"
+                      aria-label="Attach file">
+                      <md-icon md-font-icon="icon-paperclip"></md-icon>
+                    </md-button>
+                  </div>
+                  <div flex>4MB; jpg,bmp,pdf,png,zip,rar</div>
+                </choose-file>
+              </div>
+              <div  flex="45">
+                <md-button type="submit" ng-click="vm.saveRequest(vm.requestForm)" class="send-button md-accent md-raised"
+                  aria-label="Saxla">
+                  Yenilə
+                </md-button>
+                <md-button type="submit" ng-click="vm.addLawProcess()" class="send-button md-default md-raised md-icon-button mr-16"
+                  aria-label="Saxla">
+                  +
+                </md-button>
+              </div>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab ng-repeat="proc in (vm.lawProcess | orderBy : 'id') track by $index" label=" {{ proc.final?'İcra': $index+1 + ' İnstansİya'}}">
+          <md-content class="md-padding">
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+              <md-input-container flex="30">
+                <label> {{ proc.final?'Qərarın tarixi':'Qətnamə tarix'}}</label>
+                <input ng-init="orderDateTime[$index] = (proc.orderDateTime | toDate)" mdc-datetime-picker date="true"
+                  class="md-input" time="false" type="text" id="time_1" placeholder="Vaxt" show-todays-date format="DD.MM.YYYY"
+                  ng-model="orderDateTime[$index]" ng-change="proc.orderDateTime  = orderDateTime[$index]">
+              </md-input-container>
+              <md-input-container flex="30">
+                <label>{{ proc.final?'Qərarın No':'Qətnamə No'}}</label>
+                <input type="text" ng-model="proc.orderNo">
+              </md-input-container>
+              <md-input-container flex="30">
+                <label>{{ proc.final?'Qərarın daxil olma tarixi':'Qətnamənin daxil olma tarixi'}}</label>
+                <input ng-init="inputDateTime[$index] = (proc.inputDateTime | toDate)" mdc-datetime-picker date="true"
+                  class="md-input" time="false" type="text" id="time_2" placeholder="Vaxt" show-todays-date format="DD.MM.YYYY"
+                  ng-model="inputDateTime[$index]" ng-change="proc.inputDateTime  = inputDateTime[$index]">
+              </md-input-container>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+              <md-input-container flex="30">
+                <label> {{proc.final?'İcra şöbəsi':'Məhkəmə'}}</label>
+                <input autocomplete="off" ng-focus="vm.showOffer=true" type="text" ng-model="proc.court">
+                <div ms-scroll ng-if="vm.showOffer && !proc.final" class="courtFinder">
+                  <div ng-click="vm.courtSelected(proc,court)" ng-repeat="court in vm.courtList | filter : proc.court | filter : ($index+1==3?'Ali':$index+1==1?['!Apell','!Ali']:'Apel')">{{court.name}}</div>
+                </div>
+              </md-input-container>
+
+              <md-input-container flex="30">
+                <label> {{proc.final?'İcra məmuru':'Hakim'}}</label>
+                <input ng-focus="vm.showOfferJudge=true" autocomplete="off" type="text" ng-model="proc.judge">
+                <div ms-scroll ng-if="vm.showOfferJudge && !proc.final" class="courtFinder">
+                  <div ng-click="vm.judgeSelected(proc,judge)" ng-repeat="judge in vm.judgeList | filter : proc.judge">{{judge.name}}</div>
+                </div>
+              </md-input-container>
+              <md-input-container flex="30">
+                <label>İddia məbləği</label>
+                <input type="number" step="0.1" ng-model="proc.amount">
+              </md-input-container>
+            </div>
+            <div class="notes">
+              <label>Qeyd</label>
+              <text-angular ng-model="proc.description"></text-angular>
+            </div>
+            <md-divider style="margin-bottom: 10px"></md-divider>
+
+            <div style="text-align:right">
+              <md-checkbox ng-model="proc.final" aria-label="findByStatus">Yekun
+                icraat</md-checkbox>
+              <md-button type="submit" ng-click="vm.saveLawProcess(proc)" class="send-button md-accent md-raised"
+                aria-label="Saxla">
+                Yenilə
+              </md-button>
+              <md-button type="submit" ng-click="vm.addLawProcess()" class="send-button md-default md-raised md-icon-button mr-16"
+                aria-label="Saxla">
+                +
+              </md-button>
+            </div>
+
+          </md-content>
+        </md-tab>
+        <!-- <md-tab label="İcra">
+                    <md-content class="md-padding">
+                        <div flex flex="100" layout="row" layout-align="space-between start ">
+                            <md-input-container flex="30">
+                                <label>Qətnamə tarixi</label>
+                                <input mdc-datetime-picker date="true" class="md-input" time="true" type="text" id="time"
+                                    placeholder="Vaxt" show-todays-date format="DD.MM.YYYY HH:mm" ng-model="vm.requestForm.startDate"
+                                    ng-change="console.log(vm.requestForm.startDate)">
+                            </md-input-container>
+                            <md-input-container flex="30">
+                                <label>Qətnamə No</label>
+                                <input type="text" value="{{vm.phoneCard.subscriber.organisation}}">
+                            </md-input-container>
+                            <md-input-container flex="30">
+                                <label>Daxil olma tarixi</label>
+                                <input mdc-datetime-picker date="true" class="md-input" time="true" type="text" id="time"
+                                    placeholder="Vaxt" show-todays-date format="DD.MM.YYYY HH:mm" ng-model="vm.requestForm.startDate"
+                                    ng-change="console.log(vm.requestForm.startDate)">
+                            </md-input-container>
+                        </div>
+                        <div flex flex="100" layout="row" layout-align="space-between start ">
+                            <md-input-container flex="45">
+                                <label>İcra şöbəsi</label>
+                                <input type="text" value="{{vm.phoneCard.subscriber.passportNumber}}">
+                            </md-input-container>
+                            <md-input-container flex="45">
+                                <label>İcra məmuru</label>
+                                <input type="text" value="{{vm.phoneCard.subscriber.mobilePhone}}">
+                            </md-input-container>
+                        </div>
+                        <div class="notes">
+                            <label>Qeyd</label>
+                            <text-angular ta-disabled="vm.formDisabled" ng-model="vm.requestForm.text"></text-angular>
+                        </div>
+                        <div style="text-align:right">
+                            <md-button type="submit" ng-click="vm.saveLawProcess(proc)"
+                            class="send-button md-accent md-raised" aria-label="Saxla">
+                            Yenilə
+                        </md-button>
+                        <md-button type="submit" ng-click="vm.addLawProcess()"
+                            class="send-button md-default md-raised md-icon-button mr-16" aria-label="Saxla">
+                            +
+                        </md-button>
+                        </div>
+                    </md-content>
+                </md-tab> -->
+      </md-tabs>
+    </md-dialog-content>
+
+  </form>
+</md-dialog>

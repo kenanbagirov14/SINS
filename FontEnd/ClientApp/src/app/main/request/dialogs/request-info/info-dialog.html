@@ -1,0 +1,97 @@
+<md-dialog class="request-info-dialog" aria-label="New Request">
+    <ng-form ng-disabled="vm.formDisabled" name="requestForm" class="md-inline-form" novalidate>
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" flex layout="row" layout-align="space-between center">
+                <span flex="80" class="title">{{vm.title}}</span>
+                <div class="md-toolbar-tools" layout="row" layout-align="end center">
+                    <!-- <span class="info"> Status:</span> -->
+                    <md-menu ng-if="vm.authData.roles.indexOf('User')==-1" class="text-truncate">
+                        <md-button class="md-button md-primary" ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                            {{vm.requestStatusList[vm.requestForm.requestStatus.id]}}
+                        </md-button>
+                        <md-menu-content width="3">
+                            <md-menu-item ng-hide="(key == 4 && vm.requestForm.mainTask.length>0) || ((key==5 ||key==3) && (vm.requestForm.mainTask | filter: {taskStatusId : '!3'}).length>0)" ng-repeat="(key,value) in vm.requestStatusList" ng-click="vm.setRequestStatus(vm.requestForm,key)">
+                                <md-button>
+                                    {{value}}
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+                        <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Haradan</label>
+                    <md-select ng-disabled="vm.formDisabled" required ng-model="vm.requestForm[vm.fromType]">
+                        <md-option ng-repeat="department in vm.sourceList" value="{{department.id}}">
+                            {{department.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Telefon Nömrəsi</label>
+                    <input required type="number" name="customerNumber" ng-model="vm.requestForm.customerNumber">
+                </md-input-container>
+            </div>
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>Müraciət edən</label>
+                    <input required type="text" name="customerName" ng-model="vm.requestForm.customerName">
+                </md-input-container>
+                <md-input-container flex="45">
+                    <label>Əlaqə nömrəsi</label>
+                    <input type="text" name="contactNumber" ng-model="vm.requestForm.contactNumber">
+                </md-input-container>
+
+            </div>
+
+            <div flex flex="100" layout="row" layout-align="space-between start ">
+                <md-input-container flex="45">
+                    <label>{{vm.typeRequest.name}}</label>
+                    <md-select ng-disabled="vm.formDisabled" ng-change="vm.changeTypeRequest(vm.requestForm.customerRequestTypeId)" flex required
+                        ng-model="vm.requestForm.customerRequestTypeId">
+                        <md-option ng-repeat="type in vm.requestTypesFilter | filter : (vm.typeRequest.status?{parentRequestTypeId:null}:{})  " value="{{type.id}}">
+                            {{type.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <div flex="45" layout="row" layout-align="space-between start" class="date-container">
+                    <label class="info-color" flex="40">Tarix/Vaxt</label>
+                    <!--<md-datepicker ms-datepicker-fix flex="60" md-hide-icons="calendar" md-open-on-focus ng-model="vm.requestForm.startDate.date" md-placeholder="Tarix"></md-datepicker>-->
+                    <input flex="60" mdc-datetime-picker date="true" class="md-input" time="true" type="text" id="time" placeholder="Vaxt" show-todays-date
+                        format="DD.MM.YYYY HH:mm" ng-model="vm.requestForm.startDate" ng-change="console.log(vm.requestForm.startDate)">
+                </div>
+            </div>
+            <div class="notes">
+                <label>Qeyd</label>
+                <text-angular ta-disabled="vm.formDisabled" ng-model="vm.requestForm.text"></text-angular>
+            </div>
+            <div class="attachment-list">
+                    <a target="_blank" href="{{ vm.fileUrl + attachment.filePath }}" ng-repeat="attachment in vm.requestForm.attachment track by attachment.id"
+                                class="text-boxed" download>{{attachment.description}}</a>                  
+                
+               
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+            </div>
+            <div layout="row">
+                <md-button ng-if="vm.formDisabled" class="md-button md-accent md-orange-500-bg md-raised" ng-click="vm.formDisabled=!vm.formDisabled">
+                    Dəyiş
+                </md-button>
+                <md-button ng-if="!vm.formDisabled" type="submit" ng-click="vm.saveRequest(vm.requestForm)" class="send-button md-accent md-raised" ng-disabled="vm.formDisabled"
+                    aria-label="Saxla">
+                    Yenilə
+                </md-button>
+            </div>
+        </md-dialog-actions>
+    </ng-form>
+</md-dialog>

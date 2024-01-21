@@ -1,0 +1,147 @@
+<div id="details-sidenav">
+        <md-subheader class="md-white-bg">
+                <div flex class="assign" layout="row" layout-align="space-between center">
+                    <div flex class="user assign-selected">
+                        <span ng-click="vm.startAssignUserChild=vm.authData.roles.indexOf('Admin')>-1" ng-if="!vm.startAssignUserChild" class=""> <md-icon md-font-icon="icon-account-circle"></md-icon> {{(vm.userListArray[vm.selectedChild.executorUserId]) || "Təyin edilməyib"}} </span>
+                        <md-autocomplete ng-if="vm.startAssignUserChild" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="18"
+                            md-no-cache="vm.noCache" md-selected-item-change="vm.userListChild.selectedItemChange(vm.selectedChild,'executorUserId', vm.userListChild.selectedItem.id)"
+                            md-selected-item="vm.userListChild.selectedItem" md-search-text="vm.userListChild.searchText" md-items="item in vm.userListChild.querySearch(vm.userListChild.searchText,vm.userListChild.users,'userName')"
+                            md-item-text="item.userName" md-require-match md-floating-label="Cavabdeh seçin">
+                            <md-item-template>
+                                <span md-highlight-text="vm.userListChild.searchText">{{item.userName}}</span>
+                            </md-item-template>
+                        </md-autocomplete>
+                    </div>
+                    <div flex class="date assign-selected">
+                        <span ng-click="vm.startAssignDateChild=vm.authData.roles.indexOf('Admin')>-1" ng-if="!vm.startAssignDateChild" ><md-icon md-font-icon="icon-calendar"></md-icon>{{(vm.selectedChild.endDate | date:'dd-MM-yyyy')|| "Son tarix"}}</span>
+                        <md-datepicker ms-datepicker-fix ng-blur="vm.startAssignDateChild=false" md-is-open="vm.startAssignDatChilde" ng-if="vm.startAssignDateChild" md-hide-icons="all"
+                            required ng-change="vm.inLineEdit(vm.selectedChild,'endDate', vm.selectedChild.endDate)" md-min-date="vm.selectedChild.startDate"
+                            ng-model="vm.selectedChild.endDate" md-placeholder="Tarix"></md-datepicker>
+        
+                    </div>
+                    <div flex class="status assign-selected">
+                        <md-menu class="">
+                            <span aria-label="status-menu" ng-click="$mdOpenMenu($event)"><md-icon ng-class="('status_'+vm.selectedChild.taskStatusId)" class="icon-check"></md-icon> {{vm.taskStatusList[vm.selectedChild.taskStatusId]}}</span>
+                            <md-menu-content width="3">
+                                <md-menu-item ng-repeat="(key,value) in vm.taskStatusList" ng-click="vm.setTaskStatus(vm.selectedChild,key)">
+                                    <md-button>
+                                        {{value}}
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                    <md-icon ng-click="vm.closeChildSidebar()" md-font-icon="icon-close close-button"></md-icon>
+                </div>
+        
+            </md-subheader>
+    <!-- <md-subheader class="md-white-bg">
+        <span flex inline-edit="vm.selectedChild.description" inline-edit-filter="nullOrEmpty" inline-edit-callback="vm.inLineEdit(vm.selectedChild,'description', newValue)"
+            inline-edit-btn-edit="" inline-edit-on-blur="save" inline-edit-on-click class="text text-truncate">
+        </span>
+        <md-icon ng-click="vm.closeChildSidebar()" md-font-icon="icon-close close-button"></md-icon>
+    </md-subheader> -->
+    <!-- / SIDENAV HEADER -->
+    <md-divider></md-divider>
+    <!-- SIDENAV CONTENT -->
+    <md-content>
+
+        <md-list>
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="10">
+                        <md-icon md-font-icon="icon-note"></md-icon>
+                    </div>
+                    <div flex> <span flex inline-edit="vm.selectedChild.note" inline-edit-filter="nullOrEmpty" inline-edit-callback="vm.inLineEdit(vm.selectedChild,'note', newValue)"
+                            inline-edit-btn-edit="" inline-edit-on-blur="save" inline-edit-on-click class="text text-truncate"></span></div>
+                </div>
+            </md-list-item>
+            <md-list-item ng-click="vm.assignUser($event,vm.selectedChild)">
+                <div flex layout="row" layout-align="start center">
+                    <div flex="10">
+                        <md-icon md-font-icon="icon-account-multiple"></md-icon>
+                    </div>
+                    <div flex="30">İcraçı:</div>
+                    <div flex> {{(vm.userList[vm.selectedChild.executorUserId] || none)}} </div>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="10">
+                        <md-icon md-font-icon="icon-checkerboard"></md-icon>
+                    </div>
+                    <div flex="30">Status:</div>
+                    <div flex>
+                        <md-menu class="text text-truncate">
+                            <md-button class="md-button md-primary" ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                                {{vm.taskStatusList[vm.selectedChild.taskStatusId]}}
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item ng-repeat="(key,value) in vm.taskStatusList" ng-click="vm.setTaskStatus(vm.selectedChild,key)">
+                                    <md-button>
+                                        {{value}}
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </div>
+            </md-list-item>
+
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="10">
+                        <md-icon md-font-icon="icon-alarm"></md-icon>
+                    </div>
+                    <div flex="30" id="end-date">Son tarix:</div>
+                    <md-datepicker ms-datepicker-fix md-hide-icons="calendar" flex required ng-change="vm.inLineEdit(vm.selectedChild,'endDate', vm.selectedChild.endDate)"
+                        md-min-date="vm.selectedChild.startDate" ng-model="vm.selectedChild.endDate" md-placeholder="Tarix"></md-datepicker>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="10">
+                        <md-icon md-font-icon="icon-book"></md-icon>
+                    </div>
+                    <div flex="30">Tag-lar:</div>
+                    <div flex>
+                        <md-chips md-on-add="vm.inLineEdit(vm.selectedChild,'tag', vm.selectedChild.tag)" md-on-remove="vm.inLineEdit(vm.selectedChild,'tag', vm.selectedChild.tag)"
+                            md-transform-chip="vm.addNewTag($chip)" ng-model="vm.selectedChild.tag" md-separator-keys="vm.keys"
+                            placeholder="Enter a tag" secondary-placeholder="">
+                            <md-chip-template>
+                                <strong>{{$chip.name}}</strong>
+                            </md-chip-template>
+                        </md-chips>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-divider></md-divider>
+            <!--<md-list-item>
+                <div flex layout="column">
+                    <div flex layout="row" class="p-15" layout-align="start center">
+                        <div flex="10">
+                            <md-icon md-font-icon="icon-calendar-clock"></md-icon>
+                        </div>
+                        <div flex="30">Alt tapşırıqlar:</div>
+                        <div flex layout="row" layout-align="start center">
+                           
+                            <span ng-click="vm.openTaskDialog($event,vm.selectedChild)" class="add-new-task text-boxed">Yeni alt tapşırıq əlavə et</span>
+                          
+                        </div>
+                    </div>
+                    <div flex flex-offset="30" layout-align="start start" layout="column">
+
+                        <div flex layout="row" layout-align="space-between center" class="child-task-repeater" ng-repeat="childtask in vm.selectedChild.childTasks track by childtask.id">
+                            <span flex>{{childtask.description}}</span>
+                            <md-icon flex="5" md-font-icon="icon-arrow-right-bold"></md-icon>
+                        </div>
+                    </div>
+                </div>
+            </md-list-item>-->
+            <md-divider></md-divider>
+
+        </md-list>
+
+    </md-content>
+    <!-- / SIDENAV CONTENT -->
+</div>

@@ -1,0 +1,45 @@
+<md-list class="settings">
+    <md-subheader class="md-no-sticky">
+        <span>Emailə göndərilənlər</span>
+    </md-subheader>
+    <md-list-item>
+        <h4>Yeni müraciət</h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.newRequestToEmail" aria-label="My Status"></md-switch>
+    </md-list-item>
+    <md-list-item>
+        <h4>Yeni tapşırıq </h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.newTaskToEmail" aria-label="My Status"></md-switch>
+    </md-list-item>
+    <md-list-item>
+        <h4>Statusu dəyişən müraciət</h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.updatedRequestToEmail" aria-label="My Status"></md-switch>
+    </md-list-item>
+    <md-list-item>
+        <h4>Statusu dəyişən tapşırıq</h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.updatedTaskToEmail" aria-label="My Status"></md-switch>
+    </md-list-item>
+
+    <md-divider></md-divider>
+    <md-subheader class="md-no-sticky">
+        <span>Bildiriş olaraq göndərilənlər</span>
+    </md-subheader>
+    <md-list-item>
+        <h4>Yeni müraciət</h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.newRequestToNotification" aria-label="My Status"></md-switch>
+    </md-list-item>
+
+    <md-list-item>
+        <h4>Yeni tapşırıq </h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.newTaskToNotification" aria-label="My Status"></md-switch>
+    </md-list-item>
+
+    <md-list-item>
+        <h4>Statusu dəyişən müraciət</h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.updatedRequestToNotification" aria-label="My Status"></md-switch>
+    </md-list-item>
+
+    <md-list-item>
+        <h4>Statusu dəyişən tapşırıq </h4>
+        <md-switch class="md-secondary" ng-model="vm.settings.updatedTaskToNotification" aria-label="My Status"></md-switch>
+    </md-list-item>
+</md-list>

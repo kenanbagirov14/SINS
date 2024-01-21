@@ -1,0 +1,335 @@
+<div id="details-sidenav">
+    <div ng-if="vm.selectedChild.taskStatusId==3" class="cover">
+        <md-icon ng-click="vm.closeChildSidebar()" md-font-icon="icon-close close-button"></md-icon>
+    </div>
+    <md-subheader class="md-white-bg">
+        <div flex class="assign" layout="row" layout-align="space-between center">
+            <div flex class="user assign-selected">
+                <span ng-click="vm.startAssignUserChild=vm.hasAccess('assignUser')" ng-if="!vm.startAssignUserChild" class="">
+                    <md-icon md-font-icon="icon-account-circle"></md-icon> {{(vm.userListArray[vm.selectedChild.executorUserId]) || "Təyin edilməyib"}} </span>
+                <!-- <md-autocomplete ng-if="vm.startAssignUser" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="18"
+                    md-no-cache="vm.noCache" md-selected-item-change="vm.userList.selectedItemChange(vm.selectedChild,'executorUserId', vm.userList.selectedItem.id)"
+                    md-selected-item="vm.userList.selectedItem" md-search-text="vm.userList.searchText" md-items="item in vm.userList.querySearch(vm.userList.searchText,vm.userList.users,'userName')"
+                    md-item-text="item.userName" md-require-match md-floating-label="Cavabdeh seçin">
+                    <md-item-template>
+                        <span md-highlight-text="vm.userList.searchText">{{item.userName}}</span>
+                    </md-item-template>
+                </md-autocomplete> -->
+                <!-- | filter:{departmentId:vm.selectedChild.departmentId} -->
+                <md-select ng-change="vm.inLineEdit(vm.selectedChild,'executorUserId', vm.selectedChild.executorUserId)" style="margin:0" ng-if="vm.startAssignUserChild" ng-model="vm.selectedChild.executorUserId">
+                    <md-option ng-repeat="user in vm.userList.users " value="{{user.id}}">
+                        {{user.userName}}
+                    </md-option>
+                </md-select>
+
+            </div>
+            <div flex class="date assign-selected">
+                <span ng-click="vm.startAssignDateChild=vm.hasAccess('assignDeadline')" ng-if="!vm.startAssignDateChild">
+                    <md-icon md-font-icon="icon-calendar"></md-icon>{{(vm.selectedChild.endDate | date:'dd-MM-yyyy')|| "Son tarix"}}</span>
+                <md-datepicker ms-datepicker-fix ng-blur="vm.startAssignDateChild=false" md-is-open="vm.startAssignDateChild" ng-if="vm.startAssignDateChild" md-hide-icons="all"
+                    required ng-change="vm.inLineEdit(vm.selectedChild,'endDate', vm.selectedChild.endDate)" md-min-date="vm.selectedChild.startDate"
+                    ng-model="vm.selectedChild.endDate" md-placeholder="Tarix"></md-datepicker>
+
+            </div>
+            <div flex class="status assign-selected">
+                <md-menu class="">
+                    <span aria-label="status-menu" ng-click="$mdOpenMenu($event)">
+                        <md-icon ng-class="('status_'+vm.selectedChild.taskStatusId)" class="icon-check"></md-icon> {{vm.taskStatusList[vm.selectedChild.taskStatusId]}}</span>
+                    <md-menu-content width="3">
+                        <md-menu-item ng-repeat="(key,value) in vm.taskStatusList" ng-click="vm.setTaskStatus(vm.selectedChild,key)">
+                            <md-button>
+                                {{value}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+            <md-icon ng-click="vm.closeSidebar()" md-font-icon="icon-close close-button"></md-icon>
+        </div>
+
+    </md-subheader>
+    <!-- / SIDENAV HEADER -->
+    <md-divider></md-divider>
+    <!-- SIDENAV CONTENT -->
+    <md-content>
+        <md-list>
+            <md-list-item class="hasMainTask">
+                <div flex layout="column" layout-align="start center" ng-click="vm.checkUserRole()?vm.goToRequest(vm.selectedChild.customerRequest.id):return">
+
+                    <div flex>
+                        Bu tapşırıq
+                        <b>#{{vm.selectedChild.customerRequest.id}}</b> nömrəli müraciətə aiddir
+                    </div>
+                    <div flex>
+                        Müraciət edən
+                        <b>
+                            <u>{{vm.selectedChild.customerRequest.customerName}}</u>
+                        </b>
+                        Telefon:
+                        <b>{{vm.selectedChild.customerRequest.customerNumber}}</b>
+                    </div>
+
+                </div>
+            </md-list-item>
+            <md-list-item ng-if="vm.mainTask" class="hasMainTask">
+                <div flex layout="row" layout-align="start center" ng-click="vm.closeChildSidebar()">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-warning"></md-icon>
+                    </div>
+                    <div flex>
+                        Bu tapşırıq
+                        <b>
+                            <u>{{vm.mainTask.description}}</u>
+                        </b> başlıqlı
+                        <b>#{{vm.mainTask.id}}</b> tapşırığa aiddir
+                    </div>
+
+                </div>
+            </md-list-item>
+            <md-list-item ng-class="{'selected': vm.startAssignTitle==true}" class="editable-area editable-area-border" ng-blur="vm.startAssignTitle=false">
+                <div flex layout="row" layout-align="start center">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-check-circle"></md-icon>
+                    </div>
+                    <div flex inline-edit="vm.selectedChild.description" inline-edit-filter="nullOrEmpty" inline-edit-callback="vm.inLineEdit(vm.selectedChild,'description', newValue)"
+                        inline-edit-on-blur="save" inline-edit-on-click="vm.startAssignTitle=true" class="md-title editable-span"
+                        inline-edit-btn-edit=""></div>
+                    <div flex="15">
+                        <md-icon class="edit-pencil" md-font-icon="icon-pencil"></md-icon>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-list-item ng-class="{'selected_': vm.startAssignNote==true}" class="editable-area" ng-blur="vm.startAssignNote=false">
+                <div flex layout="row" layout-align="start center">
+                    <div ng-if="!vm.startAssignNote" flex="5">
+                    </div>
+                    <text-angular ms-scroll ng-blur="vm.inLineEdit(vm.selectedChild,'note', vm.selectedChild.note)" flex ng-if="vm.startAssignNote"
+                        ng-model="vm.selectedChild.note" class="text text-truncate word-wrap edit-note scrollable"></text-angular>
+                    <div class="email-html" flex ng-if="!vm.startAssignNote" ng-bind-html="vm.selectedChild.note"></div>
+                    <!-- <div ms-scroll inline-edit-textarea flex inline-edit="vm.selectedChild.note" inline-edit-filter="nullOrEmpty" inline-edit-callback="vm.inLineEdit(vm.selectedChild,'note', newValue)"
+                        inline-edit-btn-edit="" inline-edit-on-blur="save" inline-edit-on-click class="text text-truncate word-wrap edit-note scrollable"></div> -->
+                    <div ng-if="!vm.startAssignNote" flex="15">
+                        <md-icon ng-click="vm.startAssignNote=true" class="edit-pencil" md-font-icon="icon-pencil"></md-icon>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <div flex flex-offset="5" layout="row" layout-align="start center">
+                    <div flex ng-if="vm.selectedChild.childTasks.length>0">
+                        <div flex layout="row" layout-align="space-between center" class="child-task-repeater p-5 blue-50-bg margin-5 brad-2 childtask"
+                            ng-repeat="childtask in vm.selectedChild.childTasks track by childtask.id">
+                            <div flex="5">
+                                <md-icon md-font-icon="icon-check"></md-icon>
+                            </div>
+                            <span flex>{{childtask.description}}</span>
+                            <span flex>{{(vm.userListArray[childask.executorUserId]) || 'Təyin edilməyib'}}</span>
+                            <span flex> {{vm.taskStatusList[childtask.taskStatusId]}}</span>
+                            <!--<md-button  aria-label="openChildSidebar" >-->
+                            <md-icon class="show-child-task" flex="5" ng-click="vm.openChildSidebar(childtask)" md-font-icon="{{ vm.isOpenChildTask ? 'icon-arrow-left-bold':'icon-arrow-right-bold'}}"></md-icon>
+                            <!--</md-button>-->
+                        </div>
+                    </div>
+                </div>
+            </md-list-item>
+            <!-- <md-list-item>
+                <div layout="row" flex layout-align="start center">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-book"></md-icon>
+                    </div>
+                    <div flex="15">Tag-lar:</div>
+                    <div flex>
+                        <md-chips flex md-on-add="vm.inLineEdit(vm.selectedChild,'tag', vm.selectedChild.tag)" md-on-remove="vm.inLineEdit(vm.selectedChild,'tag', vm.selectedChild.tag)"
+                            md-transform-chip="vm.addNewTag($chip)" ng-model="vm.selectedChild.tag" md-separator-keys="vm.keys"
+                            placeholder="Enter a tag" secondary-placeholder="">
+                            <md-chip-template>
+                                <strong>{{$chip.name}}</strong>
+                            </md-chip-template>
+                        </md-chips>
+                    </div>
+                </div>
+            </md-list-item> -->
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-chart-bar"></md-icon>
+                    </div>
+                    <div flex="15">Dərəcə</div>
+                    <div flex layout="row" layout-align="start start">
+                        <angular-rating-icons on-change="vm.updateRating(vm.selectedChild.rating.id,vm.selectedChild.rating.taskPoint, vm.selectedChild.id)"
+                            ng-model="vm.selectedChild.rating.senderPoint"></angular-rating-icons>
+                    </div>
+                    <!-- <div flex layout="row" layout-align="start start">
+                        <div layout="column" flex>
+                            <md-rating-bar ng-model-options="{trackBy: 'vm.selectedChild.rating.senderPoint'}" rb-max="5" rb-fill-color="red" ng-model="vm.selectedChild.rating.senderPoint"></md-rating-bar>
+                            <md-rating-bar ng-model-options="{trackBy: 'vm.selectedChild.rating.receiverPoint'}" rb-max="5" ng-model="vm.selectedChild.rating.receiverPoint"></md-rating-bar>
+                            rb-on-update="vm.inLineEdit(vm.selectedChild,'rating', vm.selectedChild.rating)"
+                        </div>
+                    </div> -->
+                </div>
+
+            </md-list-item>
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-google-circles-extended"></md-icon>
+                    </div>
+                    <div flex="15">Zədə növü:</div>
+                    <div flex>
+                        <md-menu class="text text-truncate">
+                            <md-button aria-placeholder="test" class="md-button md-primary" ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                                {{(vm.injuryTypesList[vm.selectedChild.injuryTypeId] || "Zədə növünü seçin")}}
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item ng-repeat="(key,value) in vm.injuryTypesList" ng-click="vm.inLineEdit(vm.selectedChild,'injuryTypeId', key)">
+                                    <md-button>
+                                        {{value}}
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-google-circles-extended"></md-icon>
+                    </div>
+                    <div flex="15">Real zədə növü:</div>
+                    <div flex>
+                        <md-menu class="text text-truncate">
+                            <md-button aria-placeholder="test" class="md-button md-primary" ng-click="$mdOpenMenu($event)" aria-label="status-menu">
+                                {{(vm.realInjuryTypesList[vm.selectedChild.realInjuryTypeId] || "Real zədə növünü seçin")}}
+                            </md-button>
+                            <md-menu-content width="3">
+                                <md-menu-item ng-repeat="(key,value) in vm.injuryTypesList" ng-click="vm.inLineEdit(vm.selectedChild,'realInjuryTypeId', key)">
+                                    <md-button>
+                                        {{value}}
+                                    </md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <div flex layout="row" layout-align="start center">
+                    <!-- <div flex="5">
+                        <md-icon md-font-icon="icon-close-network"></md-icon>
+                    </div> -->
+                    <div flex="20">
+                        <md-checkbox ng-model="vm.selectedChild.problem" aria-label="problem with soft"></md-checkbox>
+                    </div>
+                    <div flex>
+                        Proqram təminatı səbəbindən icra olunması mümkün olmadı
+                    </div>
+                </div>
+            </md-list-item>
+            <md-list-item class="mt-5">
+                <div flex layout="row" layout-align="start center">
+                    <div flex="5">
+                        <md-icon md-font-icon="icon-attachment"></md-icon>
+                    </div>
+                    <div flex="15">Fayllar:</div>
+                    <div flex>
+                        <div layout="row" layout-align="start start" layout-wrap>
+                            <a target="_self" href="{{ vm.fileUrl + attachment.filePath }}" ng-repeat="attachment in vm.selectedChild.attachment track by attachment.id"
+                                class="text-boxed" download="{{attachment.description}}">{{attachment.description}}</a>
+                            <!--<span ng-click="vm.downloadFile(attachment.filePath)" ng-repeat="attachment in comment.attachment track by attachment.id" class="text-boxed">{{attachment.description}}</span>-->
+                        </div>
+                    </div>
+                </div>
+            </md-list-item>
+
+            <md-divider class="p-5"></md-divider>
+            <md-list-item>
+                <div flex layout="column">
+                    <div flex layout="row" layout-align="start center">
+                        <div flex="10">
+                            <md-icon md-font-icon="icon-calendar-clock"></md-icon>
+                        </div>
+                        <div flex="30">Alt tapşırıqlar:</div>
+                        <div flex layout="row" layout-align="start center">
+                            <!--<form name="basicForm" class="md-inline-form" novalidate>-->
+                            <!--<md-input-container md-no-float class="md-block" flex>
+                                <label>yeni alt-tapşırıq yarat</label>
+                                <input ng-model="vm.newSubtask" type="text">
+                                <md-icon ng-click="vm.addSubtask(vm.selectedChild,vm.newSubtask)" md-font-icon="icon-calendar-plus" style="display:inline-block;"></md-icon>
+                            </md-input-container>-->
+                            <span ng-click="vm.openTaskDialog($event,vm.selectedChild)" class="add-new-task text-boxed">Yeni alt tapşırıq əlavə et</span>
+                            <!--</form>-->
+                        </div>
+                    </div>
+                    <div flex flex-offset="30" layout-align="start start" layout="column">
+
+
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+        <md-divider class="p-5"></md-divider>
+        <div flex layout="column">
+            <!--<div flex layout="row" layout-align="start center">
+                        <div flex="10">
+                            <md-icon md-font-icon="icon-comment-text-outline"></md-icon>
+                        </div>
+                        <div flex="30">Şərhlər:</div>
+                        <div flex layout="row" layout-align="start center">
+                        </div>
+                    </div>-->
+            <md-card flex layout="column">
+                <div flex layout="row">
+                    <md-input-container flex>
+                        <label>Şərh əlavə et</label>
+                        <input ng-model="vm.newComment.content" />
+                    </md-input-container>
+                </div>
+                <div flex layout="column">
+                    <a target="_self" ng-repeat="attachment in vm.newComment.attachment" href="{{ vm.fileUrl + attachment.filePath }}" class="text-boxed"
+                        download="{{attachment.description}}">{{attachment.description}} {{attachment.createdDate}} </a>
+                    <span class="text-boxed" ng-show="vm.newComment.isProgress">file upload is on progress</span>
+                </div>
+                <div flex layout="row" layout-align="space-between center">
+                    <choose-file layout="row" flex="50">
+                        <input id="fileInput" type='file' ng-model='vm.commentFile' onload="vm.commentFileSelected" base-sixty-four-input type="file"
+                            class="ng-hide">
+                        <div>
+                            <md-button id="uploadButton" class="md-mini">
+                                <md-icon md-font-icon="icon-attachment"></md-icon>
+                                Fayl əlavə et
+                            </md-button>
+                        </div>
+                    </choose-file>
+                    <md-button ng-click="vm.addTaskComment(vm.selectedChild.id,vm.newComment)" class="md-mini" aria-label="add comment" ng-disabled="vm.newComment.length<1 || vm.newComment.isProgress"
+                        aria-label="Saxla">
+                        <md-icon md-font-icon="icon-comment-text-outline"></md-icon>
+                        Saxla
+                    </md-button>
+                </div>
+            </md-card>
+            <div flex class="" layout-align="start center" layout="column">
+                <div flex="100" style="width:96%" layout="row" layout-align="space-between start" class="comment-repeater grey-50-bg border-bottom ml-10 mr-10 mb-5 pl-10 pr-10 pt-5 pb-5"
+                    ng-repeat="comment in vm.taskComments['main'] track by comment.id">
+                    <md-icon flex="15" md-font-icon="icon-account-circle"></md-icon>
+                    <div flex layout="column" layout-align="center stretch">
+                        <div flex layout="row" layout-align="space-between center">
+                            <span flex>{{comment.user.userName}}</span>
+                            <span flex>{{comment.createdDate | date:'dd-MM-yyyy'}}</span>
+                        </div>
+                        <md-divider></md-divider>
+                        <span flex class=""> {{comment.content}}</span>
+                        <div layout="row" layout-align="start start" layout-wrap>
+                            <a target="_self" href="{{ vm.fileUrl + attachment.filePath }}" ng-repeat="attachment in comment.attachment track by attachment.id"
+                                class="text-boxed" download="{{attachment.description}}">{{attachment.description}}</a>
+                            <!--<span ng-click="vm.downloadFile(attachment.filePath)" ng-repeat="attachment in comment.attachment track by attachment.id" class="text-boxed">{{attachment.description}}</span>-->
+                        </div>
+                    </div>
+                </div>
+                <a href="#" ng-show="vm.taskComments['main'].length>2 && !vm.allCommentLoaded" ng-click="vm.loadMoreComment(vm.selectedChild.id)"
+                    class="text-boxed">... daha çox ...</a>
+            </div>
+        </div>
+
+    </md-content>
+    <!-- / SIDENAV CONTENT -->
+</div>

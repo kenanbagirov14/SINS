@@ -1,0 +1,23 @@
+<div id="login" class="flex-scrollable" layout="column" ms-scroll>
+    <div id="login-form-wrapper" layout="column" layout-align="center center">
+        <div id="login-form" class="md-whiteframe-8dp">
+            <div class="logo">
+                <img src="assets/images/logos/logo.png">
+            </div>
+
+            <div class="title" translate="LOGIN.TITLE">Log in to your account</div>
+            <div class="error md-red-200-bg" ng-show="vm.loginError.show" layout="row" layout-sm="column" layout-align="center center">
+                <span class="text">Login zamanı xəta baş verdi, bir az sonra təkrar cəhd edin</span>
+            </div>
+            <div flex layout="row" layout-align="space-between center">
+                <md-button style="text-transform:none" ng-show="!vm.progress" flex ng-click="vm.startLogin(1)" type="submit" class="md-raised md-accent submit-button lowercase" aria-label="LOG IN">
+                    AD istifadəçisi
+                </md-button>
+                <md-button style="text-transform:none" ng-show="!vm.progress" flex ng-click="vm.startLogin(2)" type="submit" class="md-raised md-accent submit-button lowercase" aria-label="LOG IN">
+                    Daxili istifadəçi
+                </md-button>
+            </div>
+            <md-progress-linear class="md-warn" ng-show="!vm.loginError.show &&  vm.progress" md-mode="indeterminate"></md-progress-linear>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<md-dialog class="about" aria-label="New Request">
+    <md-toolbar class="md-accent md-hue-2">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="title">{{vm.title}}</span>
+            <md-button class="md-icon-button" ng-click="vm.closeDialog()">
+                <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content ms-scroll>
+        <div flex flex="100" layout="row" class="about-info" layout-align="space-between start ">
+            <md-list flex="100">
+                <md-list-item>
+                    <div flex="20">Program adı:</div>
+                    <span>{{vm.env.appName}}</span>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="20">Versiyası:</div>
+                    <span>{{vm.env.version}}</span>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="20">Son versiyanın tarixi:</div>
+                    <span>{{vm.env.releaseDate}}</span>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="20">Dəyişikliklər:</div>
+                    <div layout="column" flex>
+                        <a target="_blank" href="{{vm.env.changeLog}}">Redmine Link</a>
+                    </div>
+                </md-list-item>
+                <md-list-item ng-if="vm.env.newFeature">
+                    <div flex="20">Yeniliklər:</div>
+                    <div layout="column" flex>
+                        <div flex ng-repeat="feature in vm.env.newFeature">{{feature}}</div>
+                    </div>
+                </md-list-item>
+                <md-list-item>
+                    <div flex="20">İstifadəçi təlimatı:</div>
+                    <span>
+                        <a target="_blank" href="{{vm.env.userGuideUrl}}">Bu linkdən İstifadə edin</a>
+                    </span>
+                </md-list-item>
+            </md-list>
+
+
+
+
+            <md-divider></md-divider>
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" layout-align="start center">
+        <div></div>
+        <span>Müəlliflər: {{vm.env.authors}}</span>
+    </md-dialog-actions>
+</md-dialog>

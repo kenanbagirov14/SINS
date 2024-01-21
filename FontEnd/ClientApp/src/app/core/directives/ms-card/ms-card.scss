@@ -1,0 +1,21 @@
+/*----------------------------------------------------------------*/
+/*  ms-card
+/*----------------------------------------------------------------*/
+
+.ms-card {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 8px;
+    border-top: 1px solid #ccc;
+
+    .ms-card-content-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        // max-width: 400px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 1);
+        
+    }
+}
+

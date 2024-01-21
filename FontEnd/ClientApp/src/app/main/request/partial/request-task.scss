@@ -1,0 +1,87 @@
+.ms-card {
+    margin-left: 25px;
+    padding-bottom: 20px;
+    .status-icon{
+        margin-left:5px;
+    } 
+    .no-task{
+        padding: 5px 10px;
+    }   
+    .request-task {
+        .md-list-task{
+            border-bottom:1px solid #b3e5fc;
+        }
+        .steper{
+            background: #b3e5fc;
+            width: 15px;
+        
+        .steper-1{
+            border-left: 2px dashed black;
+            border-bottom: 2px dashed black;            
+        }
+         .steper-2{
+            border-left: 2px dashed black;
+           // border-top: 2px dotted black;            
+        }        
+        }
+        div.steper>div.steper-2:last-child{
+           border-left: none;
+        }
+         .task-list.ng-enter, 
+           .task-list.ng-leave, 
+           .task-list.ng-move {
+            -webkit-transition: 0.5s linear all;
+            transition: 0.5s linear all;
+            position:relative;
+            }
+
+           .task-list.ng-enter {
+            top:-20px;
+            opacity:0;
+            }
+           .task-list.ng-enter.ng-enter-active {
+            top:0;
+            opacity:1;
+            }
+
+           .task-list.ng-leave {
+            top:0;
+            opacity:1;
+            }
+           .task-list.ng-leave.ng-leave-active {
+            top:-20px;
+            opacity:0;
+            }
+
+           .task-list.ng-move {
+            opacity:0.5;
+            }
+           .task-list.ng-move.ng-move-active {
+            opacity:1;
+            }
+        width: 100%;
+        .header {
+
+            .avatar {
+
+                .image {
+                    display: block;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                }
+            }
+        }
+
+        .media {
+
+            .image {
+                width: 100%;
+            }
+        }
+    }
+    .md-task-list:last-child{
+        // todo
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.14), 0px 2px 2px 0px rgba(0, 0, 0, 0.098), 0px 1px 5px 0px rgba(0, 0, 0, 0.084);
+    }
+}

@@ -1,0 +1,23 @@
+ <!-- ADD CONTACT BUTTON -->
+
+    <md-fab-speed-dial id="add-contact-button" md-open="vm.isOpen" md-direction="up" class="md-scale md-fab md-accent md-icon-button">
+        <md-fab-trigger>
+            <md-button aria-label="New Request" aria-label="menu" class="md-fab md-warn rotate-180">
+                <md-icon md-font-icon="icon-loupe"></md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions layout="column" layout-align="end end">
+            <md-button ng-click="vm.openRequestDialog($event)" aria-label="Request" class=" md-button md-raised md-mini md-accent  md-deep-purple-500-bg">
+                <md-icon md-font-icon="icon-tooltip-outline-plus"></md-icon>
+                Müraciət
+            </md-button>
+
+            <md-button ng-click="vm.openTaskDialog($event)" aria-label="Task" class=" md-button md-raised md-mini md-accent md-orange-500-bg">
+                <md-icon md-font-icon="icon-alarm-plus"></md-icon>
+                Tapşırıq
+            </md-button>
+
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    <!-- / ADD CONTACT BUTTON -->

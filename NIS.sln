@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIS.ServiceCore", "NIS.ServiceCore\NIS.ServiceCore.csproj", "{2DC448A5-0F72-4A3D-B9E5-04705CC18860}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIS.BLCore", "NIS.BLCore\NIS.BLCore.csproj", "{ED9A8086-016A-47A8-B82C-A80B0E105A8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIS.DALCore", "NIS.DALCore\NIS.DALCore.csproj", "{B8E6E979-6E8D-4DD7-A9E4-8903FE71AEF2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIS.UtilsCore", "NIS.UtilsCore\NIS.UtilsCore.csproj", "{17C39773-1051-486D-9AA6-E8C029E730A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIS.SecurityCore", "NIS.SecurityCore\NIS.SecurityCore.csproj", "{2120C119-8F44-497A-A97F-4B6E6B9A7543}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEnd", "FontEnd\FrontEnd.csproj", "{0810CAEA-3174-47B2-9D27-9C89A3473B5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DC448A5-0F72-4A3D-B9E5-04705CC18860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DC448A5-0F72-4A3D-B9E5-04705CC18860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DC448A5-0F72-4A3D-B9E5-04705CC18860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DC448A5-0F72-4A3D-B9E5-04705CC18860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED9A8086-016A-47A8-B82C-A80B0E105A8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED9A8086-016A-47A8-B82C-A80B0E105A8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED9A8086-016A-47A8-B82C-A80B0E105A8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED9A8086-016A-47A8-B82C-A80B0E105A8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E6E979-6E8D-4DD7-A9E4-8903FE71AEF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E6E979-6E8D-4DD7-A9E4-8903FE71AEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E6E979-6E8D-4DD7-A9E4-8903FE71AEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E6E979-6E8D-4DD7-A9E4-8903FE71AEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C39773-1051-486D-9AA6-E8C029E730A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C39773-1051-486D-9AA6-E8C029E730A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C39773-1051-486D-9AA6-E8C029E730A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C39773-1051-486D-9AA6-E8C029E730A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2120C119-8F44-497A-A97F-4B6E6B9A7543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2120C119-8F44-497A-A97F-4B6E6B9A7543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2120C119-8F44-497A-A97F-4B6E6B9A7543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2120C119-8F44-497A-A97F-4B6E6B9A7543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0810CAEA-3174-47B2-9D27-9C89A3473B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0810CAEA-3174-47B2-9D27-9C89A3473B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0810CAEA-3174-47B2-9D27-9C89A3473B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0810CAEA-3174-47B2-9D27-9C89A3473B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72033E62-CA6A-49F9-9A38-3F158CF4C24A}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal

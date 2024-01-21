@@ -1,0 +1,157 @@
+md-dialog {
+    
+    &.request-email {
+        max-width: 720px;
+        width: 720px;
+
+        md-dialog-content {
+            display: block;
+            position: relative;
+        }
+        .hasMainTask{
+            background: linear-gradient(to bottom,rgba(255,255,0,0.3),rgba(255,255,0,0));
+            border-radius: 5px;
+            margin-top:-20px;
+            margin-bottom: 15px;
+           }
+        md-toolbar {
+
+            .title {
+                font-size: 17px;
+            }
+        }
+        md-datepicker{
+            margin-top: 0px;
+            padding-right: 0;
+            margin-right: 0;
+        }
+        md-input-container {
+            margin:10px 0;
+            textarea {
+                min-height: 150px;
+            }
+        }
+        .info-color{
+            color:#adadad;
+        }
+        .date-container {
+            padding: 16px 0 24px 0;
+        }
+        .ta-editor{
+             min-height: 10px;
+        }
+        .ta-scroll-window > .ta-bind
+        {
+            min-height: 10px;
+        }
+        .notes {
+
+            > label {
+                color: rgba(0, 0, 0, 0.54);
+            }
+
+            .mce-tinymce {
+                margin-top: 8px;
+            }
+        }
+
+        .tags {
+            margin: 8px 0;
+
+            label {
+                font-size: 11px;
+                color: rgba(0, 0, 0, 0.54);
+            }
+
+            .md-chips {
+
+                .md-chip {
+
+                    md-chip-template {
+
+                        .color {
+                            display: inline-block;
+                            position: relative;
+                            width: 8px;
+                            height: 8px;
+                            top: -1px;
+                            border-radius: 50%;
+                            margin: -2px 4px 0 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .attachment-list {
+            font-size: 13px;
+            padding-top: 16px;
+
+            .attachment {
+                background-color: rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                padding-left: 16px;
+                margin-top: 8px;
+                border-radius: 2px;
+
+                .filename {
+                    font-weight: 500;
+                }
+
+                .size {
+
+                }
+
+                .md-button {
+                    margin: 0;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        md-dialog-actions {
+            position: relative;
+            overflow-y: hidden;
+            overflow-x: auto;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
+            md-checkbox{
+                margin:0px;
+                .md-container{
+                    top: 40%;
+                }
+            }
+        }
+    }
+    .dtp-content {
+        padding: 0px;
+    }
+    .dtp-date,.dtp-time{
+        display: none;
+    }
+}
+
+// RESPONSIVE
+@media screen and (max-width: $layout-breakpoint-md) {
+
+    md-dialog {
+
+        &.task-dialog {
+            width: 80%;
+        }
+    }
+}
+
+@media screen and (max-width: $layout-breakpoint-sm) {
+
+    md-dialog {
+
+        &.task-dialog {
+            width: 90%;
+        }
+    }
+}

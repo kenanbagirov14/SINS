@@ -1,0 +1,79 @@
+<md-sidenav id="vertical-navigation" class="md-primary-bg md-closed ms-scroll ng-scope ng-isolate-scope _md md-default-theme md-locked-open ps-container ps-theme-default" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="navigation" ms-scroll="" ui-view="navigation" tabindex="-1" data-ps-id="bf2eb269-14ef-7117-4785-d7c9caf10dce"><md-toolbar class="navigation-header md-whiteframe-1dp ng-scope _md md-default-theme layout-align-space-between-center layout-row _md-toolbar-transitions" layout="row" layout-align="space-between center">
+    <div class="logo layout-align-start-center layout-row" layout="row" layout-align="start center">
+          <span class="logo-image"> <img src="assets/images/logos/icon2.png"></span>
+        <span class="logo-text">     
+           Aztelekom
+        </span>
+    </div>
+
+    <md-icon class="fold-toggle s18 hide show-gt-sm md-default-theme md-font material-icons icon-backburger" md-font-icon="icon-backburger" hide="" show-gt-sm="" ng-click="vm.toggleMsNavigationFolded()" role="button" aria-hidden="true"></md-icon>
+</md-toolbar>
+
+<ms-navigation class="scrollable ng-scope ms-navigation ms-scroll ng-isolate-scope ps-container ps-theme-default" folded="vm.folded" ms-scroll="vm.msScrollOptions" data-ps-id="72815d31-d981-f4e0-f015-3abab63845b8"><ul>
+    <!-- ngRepeat: node in vm.navigation --><!-- ngInclude: 'navigation-nested.html' --><li ng-repeat="node in vm.navigation" ms-navigation-node="node" ng-class="{'collapsed': vm.collapsed, 'has-children': vm.hasChildren}" ng-include="'navigation-nested.html'" class="ms-navigation-node ng-scope">
+
+    <!-- ngIf: !vm.isHidden() --><div ms-navigation-item="" layout="row" ng-if="!vm.isHidden()" class="ms-navigation-item ng-scope layout-row">
+
+        <!-- ngIf: !node.uisref && node.title -->
+
+        <!-- ngIf: node.uisref && node.title --><a class="ms-navigation-button ng-scope md-default-theme active md-accent-bg" ui-sref="app.request" ui-sref-active="active md-accent-bg" ng-if="node.uisref &amp;&amp; node.title" href="/request">
+            <!-- ngIf: node.icon --><i class="icon s16 icon-timetable" ng-if="node.icon"></i><!-- end ngIf: node.icon -->
+            <span class="title ng-scope ng-binding flex" translate="" flex="">Sorğular</span>
+            <!-- ngIf: node.badge -->
+            <!-- ngIf: vm.collapsable && vm.hasChildren -->
+        </a><!-- end ngIf: node.uisref && node.title -->
+
+    </div><!-- end ngIf: !vm.isHidden() -->
+
+    <!-- ngIf: vm.hasChildren && !vm.isHidden() -->
+
+</li><!-- end ngRepeat: node in vm.navigation --><!-- ngInclude: 'navigation-nested.html' --><li ng-repeat="node in vm.navigation" ms-navigation-node="node" ng-class="{'collapsed': vm.collapsed, 'has-children': vm.hasChildren}" ng-include="'navigation-nested.html'" class="ms-navigation-node ng-scope">
+
+    <!-- ngIf: !vm.isHidden() --><div ms-navigation-item="" layout="row" ng-if="!vm.isHidden()" class="ms-navigation-item ng-scope layout-row">
+
+        <!-- ngIf: !node.uisref && node.title -->
+
+        <!-- ngIf: node.uisref && node.title --><a class="ms-navigation-button ng-scope md-default-theme" ui-sref="app.task" ui-sref-active="active md-accent-bg" ng-if="node.uisref &amp;&amp; node.title">
+            <!-- ngIf: node.icon --><i class="icon s16 icon-timetable" ng-if="node.icon"></i><!-- end ngIf: node.icon -->
+            <span class="title ng-scope ng-binding flex" translate="" flex="">Task</span>
+            <!-- ngIf: node.badge -->
+            <!-- ngIf: vm.collapsable && vm.hasChildren -->
+        </a><!-- end ngIf: node.uisref && node.title -->
+
+    </div><!-- end ngIf: !vm.isHidden() -->
+
+    <!-- ngIf: vm.hasChildren && !vm.isHidden() -->
+
+</li><!-- end ngRepeat: node in vm.navigation -->
+</ul>
+
+<!-- Nested navigation template -->
+<script type="text/ng-template" id="navigation-nested.html">
+
+    <div ms-navigation-item layout="row" ng-if="!vm.isHidden()">
+
+        <div class="ms-navigation-button" ng-if="!node.uisref && node.title">
+            <i class="icon s16 {{node.icon}}" ng-if="node.icon"></i>
+            <span class="title" translate="{{node.translate}}" flex>{{node.title}}</span>
+            <span class="badge white-fg" ng-style="{'background': node.badge.color}" ng-if="node.badge">{{node.badge.content}}</span>
+            <i class="icon-chevron-right s16 arrow" ng-if="vm.collapsable && vm.hasChildren"></i>
+        </div>
+
+        <a class="ms-navigation-button" ui-sref="{{node.uisref}}" ui-sref-active="active md-accent-bg"
+           ng-if="node.uisref && node.title">
+            <i class="icon s16 {{node.icon}}" ng-if="node.icon"></i>
+            <span class="title" translate="{{node.translate}}" flex>{{node.title}}</span>
+            <span class="badge white-fg" ng-style="{'background': node.badge.color}" ng-if="node.badge">{{node.badge.content}}</span>
+            <i class="icon-chevron-right s16 arrow" ng-if="vm.collapsable && vm.hasChildren"></i>
+        </a>
+
+    </div>
+
+    <ul ng-if="vm.hasChildren && !vm.isHidden()">
+        <li ng-repeat="node in node.children" ms-navigation-node="node"
+            ng-class="{'collapsed': vm.collapsed, 'has-children': vm.hasChildren}"
+            ng-include="'navigation-nested.html'"></li>
+    </ul>
+
+</script>
+<!-- / Nested navigation template --><div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></ms-navigation><div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></md-sidenav>

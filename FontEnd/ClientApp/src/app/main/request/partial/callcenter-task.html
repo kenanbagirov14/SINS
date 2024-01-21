@@ -1,0 +1,56 @@
+<div class="request-task">
+    <div layout="row" class="no-task" flex="100" ng-hide="cardData.length>0"> Heç bir tapşırıq yaradılmayıb</div>
+    <div layout="column" class="task-list" ng-repeat="task in cardData">
+
+        <div layout="row" flex="100">
+            <div layout="column" class="steper">
+                <div flex="100" class="steper-1"></div>
+                <div flex="100" class="steper-2"></div>
+            </div>
+            <md-list-item flex="100" class="md-white-bg md-list-task" md-ink-ripple>
+                <div layout="row" flex="100" class="md-task-list" layout-align="space-between center">
+                    <span flex="5" layout-align="center center">
+                        <!--icon-checkbox-blank-circle-outline-->
+                        <md-icon class="status-icon" md-font-icon=" icon-check-circle"></md-icon>
+                    </span>
+                    <span class="text-truncate font-weight-600 " flex="5">{{task.customerRequestId}}</span>
+                    <div flex="15" layout="column" layout-align="center center" class="info">
+                        <div class="title text text-truncate">{{(vm.userList[task.generatedUserId])}}</div>
+                        <div class="notes text text-truncate"> {{task.createdDate | date:'dd-MM-yyyy HH:mm'}}</div>
+                    </div>
+                    <div flex="10" layout="column" layout-align="center center" class="info">
+                        <div class="title text text-truncate">{{vm.taskStatusList[task.taskStatusId]}}</div>
+                        <!-- <div class="notes text text-truncate"> {{task.status.createdDate | date:'dd-MM-yyyy HH:mm'}}</div> -->
+                    </div>
+                    <span class="text text-truncate hide show" flex="10"> </span>
+                    <div flex="30" layout="column" layout-align="center center" class="info">
+                        <div class="title text text-truncate" flex="25" ng-bind-html="(task.description)  | toTrusted"></div>
+                        <div class="notes text text-truncate">{{vm.injuryTypesList[task.injuryTypeId]}}</div>
+                    </div>
+                    <div flex="10" layout="column" layout-align="center center" class="info">
+                        <div class="title text text-truncate" flex="25">{{(vm.userList[task.executorUserId]) || 'Not assigned'}}</div>
+                        <div class="notes text text-truncate">{{task.endDate | date:'dd-MM-yyyy HH:mm'}}</div>
+                    </div>
+                    <div class="actions" layout="row" layout-align="start center">
+                        <!--<md-button class="md-icon-button" aria-label="More" ng-click="vm.assignUser($event,task)">
+                            <md-tooltip md-direction="top">İcraçılar</md-tooltip>
+                            <md-icon md-font-icon="icon-account-multiple-plus"></md-icon>
+                        </md-button>-->
+                        <md-button class="md-icon-button" ng-click="vm.showPhoneCard(task)" aria-label="show phone card">
+                            <md-icon md-font-icon="icon-phone-log"></md-icon>
+                            <md-tooltip md-direction="bottom"> Telefon kartatekası</md-tooltip>
+                        </md-button>
+                        <md-button class="md-icon-button" ng-click="vm.goToTask(task.id)" aria-label="More">
+                            <md-icon md-font-icon="icon-debug-step-over"></md-icon>
+                            <md-tooltip md-direction="bottom"> Tapşırığı göstər</md-tooltip>
+                        </md-button>
+                    </div>
+                </div>
+            </md-list-item>
+        </div>
+        <!-- MS-CARD -->
+        <!--<ms-card class="animate-down_" ng-show="vm.card[request.id]" ng-model="request.mainTask" template="'app/main/request/partial/request-task.html'"></ms-card>-->
+        <!-- / MS-CARD -->
+
+    </div>
+</div>

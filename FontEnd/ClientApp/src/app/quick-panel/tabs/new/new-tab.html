@@ -1,0 +1,43 @@
+<div>
+    <!-- <md-subheader class="md-no-sticky"><span translate="QUICKPANEL.TODAY">Today</span></md-subheader> -->
+    <div class="secondary-text header">
+        <div layout="row" flex layout-align="start start">
+            <div>Son əlavə edilən dəyişikliklər</div>
+            <div flex layout="row" layout-align="end end">
+
+            </div>
+        </div>
+    </div>
+    <md-divider></md-divider>
+
+    <md-list class="all">
+        <!-- ng-click="vm.actionQuickData(data.id,data.notification.content)" -->
+        <md-list-item ng-class="{'unread-message':data.status}" aria-label="md-list notification {{data.id}}" ng-click="vm.actionQuickData(data)"
+            flex layout="row" layout-align="space-between center" class="contact" ng-repeat="data in vm.quickData.concat(vm.quickDataLoad)">
+            <!-- <md-icon flex="10" ng-class="('status_'+data.notification.notificationTypeId)" class="icon-check"></md-icon> -->
+            <div flex layout="column" layout-align="start start">
+                <div flex class="first-row">
+                    <div class="md-list-item-text">
+                        {{data.content}}
+                    </div>
+                </div>
+                <div flex class="second-row" layout="column">
+                    <div flex class="date">
+                        <md-icon flex="15" class="icon-account-circle"></md-icon>
+                        {{data.user.userName}}
+                    </div>
+                    <div flex class="date">
+                        <md-icon flex="15" class="icon-calendar"></md-icon>
+                        {{data.createdDate | date:'dd-MM-yyyy HH:mm'}}
+                    </div>
+                </div>
+            </div>
+            <md-divider></md-divider>
+
+            <!-- <md-button class="md-icon-button"> -->
+            <md-icon ng-click="vm.removeQuickData(data)" flex="5" class="icon-close md-icon-button"></md-icon>
+            <!-- </md-button> -->
+        </md-list-item>
+    </md-list>
+    <md-progress-linear class="md-warn" ng-show="vm.findIsInProgress" md-mode="indeterminate"></md-progress-linear>
+</div>

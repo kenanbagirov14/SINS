@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/NIS.Service_deploy" />
+  <setParameter name="NISContext-Web.config Connection String" value="data source=91.135.244.55;initial catalog=Nis_Service_test;persist security info=True;user id=nis_service;password=N1S2017!;MultipleActiveResultSets=True;Connect Timeout=60;" />
+</parameters>

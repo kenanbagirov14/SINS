@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "title": "Daily Scrum",
+            "detail": "After 10 minutes, Developers Room"
+        },
+        {
+            "title": "Retrospective meeting",
+            "detail": "10:00 PM"
+        },
+        {
+            "title": "Get Pharmacy from store",
+            "detail": "18:30 PM"
+        },
+        {
+            "title": "Training",
+            "detail": "20:30 PM"
+        }
+    ]
+}

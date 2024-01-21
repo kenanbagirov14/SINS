@@ -1,0 +1,48 @@
+{
+    "data": {
+        "friends": [
+            {
+                "name": "Adele",
+                "avatar": "assets/images/avatars/adele.jpg",
+                "message": "Adele change her profile picture",
+                "status": "ofline",
+                "time": "1 hours. ago"
+            },
+            {
+                "name": "Baby",
+                "avatar": "assets/images/avatars/baby.jpg",
+                "message": "Baby is missing you",
+                "status": "away",
+                "time": "A day ago"
+            }
+        ],
+        "eco": [
+            {
+                "location": "Absheron",
+                "status": "normal",
+                "detail": "Load: High, Water: 89%, Air: 90%"
+            },
+            {
+                "location": "Beylegan",
+                "status": "normal",
+                "detail": "Load: Low, Water: 19%, Air: 28%"
+            }
+        ],
+        "resources": [
+            {
+                "title": "Fuel",
+                "current": "200",
+                "total": "4000",
+                "percent": "5",
+                "status": "warn"
+            },
+            {
+                "title": "Oil",
+                "current": "150",
+                "total": "300",
+                "percent": "50",
+                "status": "normal"
+            }
+        ]
+    }
+}

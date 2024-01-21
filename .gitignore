@@ -1,0 +1,12 @@
+.vs/*
+packages/*
+*/bin/*
+*/obj/*
+/NIS.DAL/Context Copy
+/NIS.Service/File
+/NIS.Service/Logs
+/publish
+/NIS.ServiceCore/Properties/PublishProfiles
+/NIS.ServiceCore/Controllers/BlackWhole.cs
+/NIS.ServiceCore/file
+/NIS.ServiceCore/Logs
